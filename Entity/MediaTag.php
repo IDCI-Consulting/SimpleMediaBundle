@@ -7,9 +7,8 @@
  *
  */
 
-namespace IDCI\Bundle\SimpleMediaBundle\Service;
+namespace IDCI\Bundle\SimpleMediaBundle\Entity;
 
-class Manager
+class MediaTag
 {
-
 }
