@@ -26,6 +26,10 @@ class MediaOwner
      */
     private $hash;
     
+    /**
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias", mappedBy="mediaOwner")
+     */
+    protected $mediaOwnerMedias;
 
     /**
      * Set hash
@@ -48,5 +52,45 @@ class MediaOwner
     public function getHash()
     {
         return $this->hash;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->mediaOwnerMedias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add mediaOwnerMedias
+     *
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias
+     * @return MediaOwner
+     */
+    public function addMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias)
+    {
+        $this->mediaOwnerMedias[] = $mediaOwnerMedias;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mediaOwnerMedias
+     *
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias
+     */
+    public function removeMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias)
+    {
+        $this->mediaOwnerMedias->removeElement($mediaOwnerMedias);
+    }
+
+    /**
+     * Get mediaOwnerMedias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMediaOwnerMedias()
+    {
+        return $this->mediaOwnerMedias;
     }
 }

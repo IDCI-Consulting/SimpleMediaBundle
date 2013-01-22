@@ -34,6 +34,11 @@ class MediaTag
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia", mappedBy="tags")
+     */
+    private $mediaOwnerMedias;
 
     /**
      * Get id
@@ -66,5 +71,45 @@ class MediaTag
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->mediaOwnerMedias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add mediaOwnerMedias
+     *
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias
+     * @return MediaTag
+     */
+    public function addMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias)
+    {
+        $this->mediaOwnerMedias[] = $mediaOwnerMedias;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mediaOwnerMedias
+     *
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias
+     */
+    public function removeMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias)
+    {
+        $this->mediaOwnerMedias->removeElement($mediaOwnerMedias);
+    }
+
+    /**
+     * Get mediaOwnerMedias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMediaOwnerMedias()
+    {
+        return $this->mediaOwnerMedias;
     }
 }

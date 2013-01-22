@@ -106,6 +106,11 @@ class Media
     private $created_at;
 
     /**
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias", mappedBy="media")
+     */
+    protected $mediaOwnerMedias;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -366,5 +371,45 @@ class Media
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->mediaOwnerMedias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add mediaOwnerMedias
+     *
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias
+     * @return Media
+     */
+    public function addMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias)
+    {
+        $this->mediaOwnerMedias[] = $mediaOwnerMedias;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mediaOwnerMedias
+     *
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias
+     */
+    public function removeMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias)
+    {
+        $this->mediaOwnerMedias->removeElement($mediaOwnerMedias);
+    }
+
+    /**
+     * Get mediaOwnerMedias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMediaOwnerMedias()
+    {
+        return $this->mediaOwnerMedias;
     }
 }
