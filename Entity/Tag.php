@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Media
  *
  * @ORM\Table(name="idci_media_tag")
- * @ORM\Entity(repositoryClass="IDCI\Bundle\SimpleMediaBundle\Repository\MediaTagRepository")
+ * @ORM\Entity(repositoryClass="IDCI\Bundle\SimpleMediaBundle\Repository\TagRepository")
  */
 class MediaTag
 {
@@ -36,9 +36,9 @@ class MediaTag
     private $name;
     
     /**
-     * @ORM\ManyToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia", mappedBy="tags")
      */
-    private $mediaOwnerMedias;
+    private $ownerMedias;
 
     /**
      * Get id
@@ -54,7 +54,7 @@ class MediaTag
      * Set name
      *
      * @param string $name
-     * @return MediaTag
+     * @return Tag
      */
     public function setName($name)
     {
@@ -77,30 +77,30 @@ class MediaTag
      */
     public function __construct()
     {
-        $this->mediaOwnerMedias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ownerMedias = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
      * Add mediaOwnerMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias
      * @return MediaTag
      */
-    public function addMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias)
+    public function addOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\ownerMedia $ownerMedias)
     {
-        $this->mediaOwnerMedias[] = $mediaOwnerMedias;
+        $this->ownerMedias[] = $ownerMedias;
     
         return $this;
     }
 
     /**
-     * Remove mediaOwnerMedias
+     * Remove ownerMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\ownerMedia $ownerMedias
      */
-    public function removeMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedia $mediaOwnerMedias)
+    public function removeOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\ownerMedia $ownerMedias)
     {
-        $this->mediaOwnerMedias->removeElement($mediaOwnerMedias);
+        $this->ownerMedias->removeElement($ownerMedias);
     }
 
     /**
@@ -108,8 +108,8 @@ class MediaTag
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMediaOwnerMedias()
+    public function getOwnerMedias()
     {
-        return $this->mediaOwnerMedias;
+        return $this->ownerMedias;
     }
 }

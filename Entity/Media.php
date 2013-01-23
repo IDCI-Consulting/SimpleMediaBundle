@@ -106,9 +106,9 @@ class Media
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias", mappedBy="media")
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia", mappedBy="media")
      */
-    protected $mediaOwnerMedias;
+    protected $ownerMedias;
     
     /**
      * Get id
@@ -381,35 +381,35 @@ class Media
     }
     
     /**
-     * Add mediaOwnerMedias
+     * Add OwnerMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias
      * @return Media
      */
-    public function addMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias)
+    public function addOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias)
     {
-        $this->mediaOwnerMedias[] = $mediaOwnerMedias;
+        $this->ownerMedias[] = $ownerMedias;
     
         return $this;
     }
 
     /**
-     * Remove mediaOwnerMedias
+     * Remove OwnerMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias
      */
-    public function removeMediaOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\MediaOwnerMedias $mediaOwnerMedias)
+    public function removeOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias)
     {
-        $this->mediaOwnerMedias->removeElement($mediaOwnerMedias);
+        $this->ownerMedias->removeElement($ownerMedias);
     }
 
     /**
-     * Get mediaOwnerMedias
+     * Get OwnerMedias
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMediaOwnerMedias()
+    public function getOwnerMedias()
     {
-        return $this->mediaOwnerMedias;
+        return $this->ownerMedias;
     }
 }
