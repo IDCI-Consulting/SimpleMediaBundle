@@ -9,7 +9,7 @@
 
 namespace IDCI\Bundle\SimpleMediaBundle\Repository;
 
-class MediaOwnerRepository {
+class OwnerMediaRepository {
 
 }
 ?>
