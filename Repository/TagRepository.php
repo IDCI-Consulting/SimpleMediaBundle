@@ -9,7 +9,8 @@
 
 namespace IDCI\Bundle\SimpleMediaBundle\Repository;
 
-class OwnerRepository {
+use Doctrine\ORM\EntityRepository;
 
+class TagRepository extends EntityRepository
+{
 }
-?>

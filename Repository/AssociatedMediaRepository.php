@@ -9,7 +9,8 @@
 
 namespace IDCI\Bundle\SimpleMediaBundle\Repository;
 
-class OwnerMediaRepository {
+use Doctrine\ORM\EntityRepository;
 
+class AssociatedMediaRepository extends EntityRepository
+{
 }
-?>

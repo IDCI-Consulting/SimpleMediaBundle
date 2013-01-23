@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="idci_media_media")
  * @ORM\Entity(repositoryClass="IDCI\Bundle\SimpleMediaBundle\Repository\MediaRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Media
 {
@@ -87,7 +88,7 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="author", type="string", length=255)
+     * @ORM\Column(name="author", type="string", length=255, nullable=true)
      */
     private $author;
 
@@ -106,10 +107,42 @@ class Media
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia", mappedBy="media")
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia", mappedBy="media")
      */
-    protected $ownerMedias;
-    
+    protected $associatedMedias;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->associatedMedias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setEnabled(true);
+    }
+
+    /**
+     * onCreation
+     *
+     * @ORM\PrePersist()
+     */
+    public function onCreation()
+    {
+        $now = new \DateTime('now');
+        $this->setCreatedAt($now);
+        $this->setUpdatedAt($now);
+    }
+
+    /**
+     * onUpdate
+     *
+     * @ORM\PreUpdate()
+     */
+    public function onUpdate()
+    {
+        $now = new \DateTime('now');
+        $this->setUpdatedAt($now);
+    }
+
     /**
      * Get id
      *
@@ -372,44 +405,37 @@ class Media
     {
         return $this->created_at;
     }
+
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->mediaOwnerMedias = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add OwnerMedias
+     * Add associatedMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias
      * @return Media
      */
-    public function addOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias)
+    public function addAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias)
     {
-        $this->ownerMedias[] = $ownerMedias;
+        $this->associatedMedias[] = $associatedMedias;
     
         return $this;
     }
 
     /**
-     * Remove OwnerMedias
+     * Remove associatedMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias
      */
-    public function removeOwnerMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\OwnerMedia $ownerMedias)
+    public function removeAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias)
     {
-        $this->ownerMedias->removeElement($ownerMedias);
+        $this->associatedMedias->removeElement($associatedMedias);
     }
 
     /**
-     * Get OwnerMedias
+     * Get associatedMedias
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getOwnerMedias()
+    public function getAssociatedMedias()
     {
-        return $this->ownerMedias;
+        return $this->associatedMedias;
     }
 }
