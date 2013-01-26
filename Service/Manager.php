@@ -85,16 +85,24 @@ class Manager
     }
 
     /**
-     * Get medias associated to a given MediaAssociableInterface object
+     * Get medias associated to a given MediaAssociableInterface object and or Tags
      *
      * @param MediaAssociableInterface $media_associable
+     * @param array $tagNames
      * @return DoctrineCollection
      */
-    public function getMedias(MediaAssociableInterface $media_associable)
+    public function getMedias(MediaAssociableInterface $media_associable = null, $tagNames = array())
     {
-        return $this->em
-            ->getRepository('IDCISimpleMediaBundle:Media')
-            ->findMediasByHash($this->getHash($media_associable))
-        ;
+        if(null !== $media_associable) {
+            return $this->em
+                ->getRepository('IDCISimpleMediaBundle:Media')
+                ->findMediasByHashAndTags($this->getHash($media_associable), $tagNames)
+            ;
+        } else {
+            return $this->em
+                ->getRepository('IDCISimpleMediaBundle:Media')
+                ->findMediasByTags($tagNames)
+            ;
+        }
     }
 }

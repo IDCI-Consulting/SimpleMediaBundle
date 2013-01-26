@@ -26,6 +26,6 @@ class Test implements MediaAssociableInterface
 
     public function getId()
     {
-        return 42;
+        return 21;
     }
 }

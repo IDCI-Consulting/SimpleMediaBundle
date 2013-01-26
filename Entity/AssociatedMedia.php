@@ -15,7 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  * AssociatedMedia
  *
  * @ORM\Table(name="idci_media_associated_media", indexes={
- *    @ORM\Index(name="hash_idx", columns={"hash"})
+ *     @ORM\Index(name="hash_idx", columns={"hash"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="single_media_idx", columns={"hash", "media_id"})
  * })
  * @ORM\Entity(repositoryClass="IDCI\Bundle\SimpleMediaBundle\Repository\AssociatedMediaRepository")
  */
