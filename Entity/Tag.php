@@ -41,6 +41,16 @@ class Tag
     private $associatedMedias;
 
     /**
+     * toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
      * Constructor
      */
     public function __construct($tagName = null)

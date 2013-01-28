@@ -10,18 +10,39 @@
 namespace IDCI\Bundle\SimpleMediaBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use IDCI\Bundle\SimpleMediaBundle\MediaAssociableInterface;
+use Symfony\Component\Form\FormFactory;
+use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
 use IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Tag;
+use IDCI\Bundle\SimpleMediaBundle\Form\Type\AssociatedMediaType;
+use IDCI\Bundle\SimpleMediaBundle\Form\Type\FileMediaType;
 
 class Manager
 {
     protected $em;
+    protected $formFactory;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, FormFactory $form_factory)
     {
         $this->em = $em;
+        $this->formFactory = $form_factory;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
+    /**
+     * @return FormFactory
+     */
+    public function getFormFactory()
+    {
+        return $this->formFactory;
     }
 
     /**
@@ -73,15 +94,18 @@ class Manager
         $associatedMedia->setMedia($media);
 
         foreach($tagNames as $tagName) {
-            $tag = $this->em->getRepository('IDCISimpleMediaBundle:Tag')->findOneBy(array('name' => $tagName));
+            $tag = $this->getEntityManager()
+                ->getRepository('IDCISimpleMediaBundle:Tag')
+                ->findOneBy(array('name' => $tagName))
+            ;
             if(!$tag) {
                 $tag = new Tag($tagName);
             }
             $associatedMedia->addTag($tag);
         }
 
-        $this->em->persist($associatedMedia);
-        $this->em->flush();
+        $this->getEntityManager()->persist($associatedMedia);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -94,15 +118,36 @@ class Manager
     public function getMedias(MediaAssociableInterface $media_associable = null, $tagNames = array())
     {
         if(null !== $media_associable) {
-            return $this->em
+            return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Media')
                 ->findMediasByHashAndTags($this->getHash($media_associable), $tagNames)
             ;
         } else {
-            return $this->em
+            return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Media')
                 ->findMediasByTags($tagNames)
             ;
         }
+    }
+
+    /**
+     * create a form based on the given on and attach media input fields
+     *
+     * @param FormType $form
+     * @param array $options
+     * @return FormType
+     */
+    public function createForm($type, MediaAssociableInterface &$media_associable, array $options = array())
+    {
+        $associatedMedia = new AssociatedMedia();
+        $hash = $this->getHash($media_associable);
+        $associatedMedia->setHash($hash);
+        $options = array(
+            'objectType' => $type,
+            'object'     => $media_associable,
+            'mediaType'  => new FileMediaType()
+        );
+
+        return $this->getFormFactory()->create(new AssociatedMediaType(), $associatedMedia, $options);
     }
 }

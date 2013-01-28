@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Test;
-
+use IDCI\Bundle\SimpleMediaBundle\Form\TestType;
 
 /**
  * Test controller.
@@ -38,6 +38,7 @@ class TestController extends Controller
         $media->setSize(1024);
         $media->setContentType('TEST');
         $this->get('idci_simplemedia.manager')->addMedia($obj, $media, array('tag1', 'tag2', 'tag3', 'tag4'));
+
         die('Good or not ?');
     }
 
@@ -56,6 +57,7 @@ class TestController extends Controller
         foreach($medias as $media) {
             var_dump($media->getName());
         }
+
         die('Good or not ?');
     }
 
@@ -72,6 +74,41 @@ class TestController extends Controller
         foreach($medias as $media) {
             var_dump($media->getName());
         }
+
         die('Good or not ?');
+    }
+
+    /**
+     * displayForm
+     *
+     * @Route("/create", name="createform")
+     * @Template()
+     */
+    public function createAction()
+    {
+        $test = new Test();
+        //$form = $this->createForm(new TestType(), $test);
+
+        $form = $this->get('idci_simplemedia.manager')->createForm(
+            new TestType(),
+            $test,
+            array()
+        );
+
+        if ($this->getRequest()->isMethod('POST')) {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $obj = $form->getData('object');
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($obj);
+                $em->flush();
+
+                die('Good or not ?');
+                //$this->redirect($this->generateUrl(...));
+            }
+        }
+
+        return array('form' => $form->createView());
     }
 }

@@ -7,7 +7,7 @@
  *
  */
 
-namespace IDCI\Bundle\SimpleMediaBundle;
+namespace IDCI\Bundle\SimpleMediaBundle\Entity;
 
 /**
  * MediaAssociableInterface

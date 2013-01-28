@@ -51,6 +51,27 @@ class Media
     private $enabled;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="providerName", type="string")
+     */
+    private $providerName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="providerReference", type="string")
+     */
+    private $providerReference;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="providerMetadataRaw", type="text")
+     */
+    private $providerMetadataRaw;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="width", type="integer")
@@ -112,12 +133,40 @@ class Media
     protected $associatedMedias;
 
     /**
+     * @var Symfony\Component\HttpFoundation\File\UploadedFile $binaryContent
+     */
+    protected $binaryContent;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->associatedMedias = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setEnabled(true);
+    }
+
+    /**
+     * Set binaryContent
+     *
+     * @param $binaryContent
+     * @return Media
+     */
+    public function setBinaryContent($binaryContent)
+    {
+        $this->binaryContent = $binaryContent;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getBinaryContent()
+    {
+        return $this->binaryContent;
     }
 
     /**
@@ -220,6 +269,75 @@ class Media
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set providerName
+     *
+     * @param string $providerName
+     * @return Media
+     */
+    public function setProviderName($providerName)
+    {
+        $this->providerName = $providerName;
+    
+        return $this;
+    }
+
+    /**
+     * Get providerName
+     *
+     * @return string 
+     */
+    public function getProviderName()
+    {
+        return $this->providerName;
+    }
+
+    /**
+     * Set providerReference
+     *
+     * @param string $providerReference
+     * @return Media
+     */
+    public function setProviderReference($providerReference)
+    {
+        $this->providerReference = $providerReference;
+    
+        return $this;
+    }
+
+    /**
+     * Get providerReference
+     *
+     * @return string 
+     */
+    public function getProviderReference()
+    {
+        return $this->providerReference;
+    }
+
+    /**
+     * Set providerMetadataRaw
+     *
+     * @param string $providerMetadataRaw
+     * @return Media
+     */
+    public function setProviderMetadataRaw($providerMetadataRaw)
+    {
+        $this->providerMetadataRaw = $providerMetadataRaw;
+    
+        return $this;
+    }
+
+    /**
+     * Get providerMetadataRaw
+     *
+     * @return string 
+     */
+    public function getProviderMetadataRaw()
+    {
+        return $this->providerMetadataRaw;
     }
 
     /**

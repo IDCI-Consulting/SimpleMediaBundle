@@ -1,4 +1,4 @@
 services:
     idci_simplemedia.manager:
         class: IDCI\Bundle\SimpleMediaBundle\Service\Manager
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@doctrine.orm.entity_manager, @form.factory]
