@@ -86,13 +86,6 @@ class Media
     private $height;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="lenght", type="float")
-     */
-    private $length;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="size", type="integer")
@@ -384,29 +377,6 @@ class Media
     public function getHeight()
     {
         return $this->height;
-    }
-
-    /**
-     * Set length
-     *
-     * @param float $length
-     * @return Media
-     */
-    public function setLength($length)
-    {
-        $this->length = $length;
-    
-        return $this;
-    }
-
-    /**
-     * Get length
-     *
-     * @return float 
-     */
-    public function getLength()
-    {
-        return $this->length;
     }
 
     /**

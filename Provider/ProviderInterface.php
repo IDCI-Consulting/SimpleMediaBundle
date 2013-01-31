@@ -23,12 +23,32 @@ interface ProviderInterface
     function generateReferenceName(Media $media);
 
     /**
+     * Get the media public url
+     *
+     * @param Media $media
+     * @return string
+     */
+    function getPulicUrl(Media $media);
+
+    /**
+     * @param Media $media
+     * @return array
+     */
+    function getMetadata(Media $media);
+
+    /**
      * @return string
      */
     function getFormType();
 
     /**
      * @param Media $media
+     * @return void
      */
     function transform(Media $media);
+
+    /**
+     * @return string
+     */
+    function getName();
 }

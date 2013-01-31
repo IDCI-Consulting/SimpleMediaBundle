@@ -16,13 +16,79 @@ use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
  */
 class FileProvider extends BaseProvider
 {
+    public function __construct()
+    {
+        $this->name = "file";
+    }
+
     /**
-     * @param IDCI\Bundle\SimpleMediaBundle\Entity\Media $media
+     * @param Media $media
+     * @return string
+     */
+    public function generateReferenceName(Media $media)
+    {
+        return sha1($media->getBinaryContent()->getClientOriginalName() . rand(11111, 99999)) . '.' . $media->getBinaryContent()->guessExtension();
+    }
+
+    /**
+     * Get the full path to the media root directory
      *
      * @return string
      */
-    protected function generateReferenceName(Media $media)
+    public function getMediaRootDir()
     {
-        return sha1($media->getName() . rand(11111, 99999)) . '.' . $media->getBinaryContent()->guessExtension();
+         return __DIR__.'/../../../../../../../web/'.$this->getUploadDir();
+    }
+
+    /**
+     * Get the media directory
+     *
+     * @return string
+     */
+    public function getUploadDir()
+    {
+        return 'uploads/media';
+    }
+
+    /**
+     * Get the media root path
+     *
+     * @param Media $media
+     * @return string
+     */
+    public function getMediaPath(Media $media)
+    {
+        return sprintf('%s/%s',
+            $this->getMediaRootDir(),
+            $media->getProviderReference()
+        );
+    }
+
+    /**
+     * @param Media $media
+     * @return string
+     */
+    public function getPulicUrl(Media $media)
+    {
+        return sprintf('%s/%s',
+            $this->getUploadDir(),
+            $media->getProviderReference()
+        );
+    }
+
+    /**
+     * @param Media $media
+     * @return void
+     */
+    public function doTransform(Media $media)
+    {
+        $media->getBinaryContent()->move($this->getMediaRootDir(), $media->getProviderReference());
+        $media->setName($media->getBinaryContent()->getClientOriginalName());
+        $media->setSize($media->getBinaryContent()->getClientSize());
+        $media->setContentType($media->getBinaryContent()->getClientMimeType());
+
+        list($width, $height) = getimagesize($this->getMediaPath($media));
+        $media->setWidth($width);
+        $media->setHeight($height);
     }
 }

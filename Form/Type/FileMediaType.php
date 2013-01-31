@@ -21,7 +21,7 @@ class FileMediaType extends MediaType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('binaryContent', 'file')
+            ->add('binaryContent', 'file', array('required' => false))
         ;
     }
 

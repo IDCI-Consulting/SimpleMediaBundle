@@ -154,4 +154,17 @@ class AssociatedMedia
     {
         return $this->tags;
     }
+
+    /**
+     * Set tags
+     *
+     * @param DoctrineCollection $tags
+     * @return AssociatedMedia
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    
+        return $this;
+    }
 }
