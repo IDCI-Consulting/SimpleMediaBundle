@@ -97,17 +97,19 @@ class Manager
 
         foreach($tags as $t) {
             $tagName = $t;
-            if($t instanceof IDCI\Bundle\SimpleMediaBundle\Entity\Tag) {
-              $tagName = $tag->getName();
+            if($t instanceof Tag) {
+              $tagName = $t->getName();
             }
 
             $tag = $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Tag')
                 ->findOneBy(array('name' => $tagName))
             ;
-            if(!$t instanceof IDCI\Bundle\SimpleMediaBundle\Entity\Tag && !$tag) {
+
+            if(!$t instanceof Tag && !$tag) {
                 $tag = new Tag($tagName);
             }
+
             $associatedMedia->addTag($tag);
         }
 
@@ -169,8 +171,7 @@ class Manager
         $associatedMedia = $form->getData();
         $mediaAssociable = $form->get('mediaAssociable')->getData();
         $media = $form->get('media')->getData();
-        $providerName = $form->get('provider')->getData();
-        $provider = ProviderFactory::getInstance($providerName);
+        $provider = ProviderFactory::getInstance($form->get('provider')->getData());
         $provider->transform($media);
 
         $this->getEntityManager()->persist($mediaAssociable);

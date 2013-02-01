@@ -43,7 +43,7 @@ class AssociatedMedia
      * media
      *
      * @ORM\ManyToOne(targetEntity="IDCI\Bundle\SimpleMediaBundle\Entity\Media", inversedBy="associatedMedias", cascade={"persist"})
-     * @ORM\JoinColumn(name="media_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="Cascade")
      */
     private $media;
 
