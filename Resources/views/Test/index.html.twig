@@ -7,6 +7,17 @@
 <ul>
   {% for test in tests %}
   <li>{{ test.name }}</li>
+  <ul>
+    {% for media in medias(test, ['avatar']) %}
+    <li><img src="{{ asset(media.url) }}" /></li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</ul>
+
+<ul>
+  {% for media in medias_tag(['avatar']) %}
+  <li><img src="{{ asset(media.url) }}" /></li>
   {% endfor %}
 </ul>
 

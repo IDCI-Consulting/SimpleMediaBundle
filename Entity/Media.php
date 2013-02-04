@@ -10,6 +10,7 @@
 namespace IDCI\Bundle\SimpleMediaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use IDCI\Bundle\SimpleMediaBundle\Provider\ProviderFactory;
 
 /**
  * Media
@@ -160,6 +161,18 @@ class Media
     public function getBinaryContent()
     {
         return $this->binaryContent;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string 
+     */
+    public function getUrl()
+    {
+        $provider = ProviderFactory::getInstance($this->getProviderName());
+
+        return $provider->getPublicUrl($this);
     }
 
     /**

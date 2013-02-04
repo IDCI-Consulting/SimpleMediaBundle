@@ -63,13 +63,13 @@ class TagsToListTransformer implements DataTransformerInterface
 
         $tags = array();
         foreach(explode(",", $list) as $item) {
+            $tagName = trim($item);
             $tag = $this->om
                 ->getRepository('IDCISimpleMediaBundle:Tag')
-                ->findOneBy(array('name' => $item))
+                ->findOneBy(array('name' => $tagName))
             ;
             if(!$tag) {
-                $tag = new Tag();
-                $tag->setName($item);
+                $tag = new Tag($tagName);
             }
             $tags[] = $tag;
         }

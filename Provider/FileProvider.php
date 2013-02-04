@@ -68,7 +68,7 @@ class FileProvider extends BaseProvider
      * @param Media $media
      * @return string
      */
-    public function getPulicUrl(Media $media)
+    public function getPublicUrl(Media $media)
     {
         return sprintf('%s/%s',
             $this->getUploadDir(),

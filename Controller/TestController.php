@@ -27,19 +27,12 @@ class TestController extends Controller
      */
     public function indexAction()
     {
-        $obj = new Test();
+        $tests = $this->getDoctrine()
+            ->getRepository('IDCISimpleMediaBundle:Test')
+            ->findAll()
+        ;
 
-        $media = new Media();
-        $media->setName('tutu1234');
-        $media->setDescription('desc test');
-        $media->setWidth(800);
-        $media->setHeight(600);
-        $media->setLength(1024);
-        $media->setSize(1024);
-        $media->setContentType('TEST');
-        $this->get('idci_simplemedia.manager')->addMedia($obj, $media, array('tag1', 'tag2', 'tag3', 'tag4'));
-
-        die('Good or not ?');
+        return array('tests' => $tests);
     }
 
     /**
@@ -92,20 +85,14 @@ class TestController extends Controller
         $form = $this->get('idci_simplemedia.manager')->createForm(
             new TestType(),
             $test,
-            array()
+            array('provider' => 'file')
         );
 
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             if ($form->isValid()) {
-                $obj = $form->getData('object');
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($obj);
-                $em->flush();
-
-                die('Good or not ?');
-                //$this->redirect($this->generateUrl(...));
+                $test = $this->get('idci_simplemedia.manager')->processForm($form);
+                return $this->redirect($this->generateUrl('test'));
             }
         }
 

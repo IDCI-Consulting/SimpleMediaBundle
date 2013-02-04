@@ -28,7 +28,7 @@ interface ProviderInterface
      * @param Media $media
      * @return string
      */
-    function getPulicUrl(Media $media);
+    function getPublicUrl(Media $media);
 
     /**
      * @param Media $media

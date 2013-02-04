@@ -79,7 +79,6 @@ class Manager
         return md5($raw);
     }
 
-
     /**
      * Add media attach a media to a given MediaAssociableInterface object
      *
@@ -95,26 +94,52 @@ class Manager
         $associatedMedia->setHash($hash);
         $associatedMedia->setMedia($media);
 
-        foreach($tags as $t) {
-            $tagName = $t;
-            if($t instanceof Tag) {
-              $tagName = $t->getName();
-            }
-
-            $tag = $this->getEntityManager()
-                ->getRepository('IDCISimpleMediaBundle:Tag')
-                ->findOneBy(array('name' => $tagName))
-            ;
-
-            if(!$t instanceof Tag && !$tag) {
-                $tag = new Tag($tagName);
-            }
-
-            $associatedMedia->addTag($tag);
+        foreach($tags as $tag) {
+            $associatedMedia->addTag($this->cleanTag($tag));
         }
 
         $this->getEntityManager()->persist($associatedMedia);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Clean tag
+     *
+     * @param Tag|string $tag
+     * @return Tag
+     */
+    public function cleanTag($tag)
+    {
+        if($tag instanceof Tag) {
+            if($t = $this->tagExist($tag->getName())) {
+                return $t;
+            }
+
+            return $tag;
+        }
+
+        if($t = $this->tagExist($tag)) {
+            return $t;
+        }
+
+        return new Tag($tag);
+    }
+
+    /**
+     * Tag exist
+     *
+     * @param string $tagName
+     * @return Tag|false
+     */
+    public function tagExist($tagName)
+    {
+        $tag = $this
+            ->getEntityManager()
+            ->getRepository('IDCISimpleMediaBundle:Tag')
+            ->findOneBy(array('name' => $tagName))
+        ;
+
+        return $tag ? $tag : false;
     }
 
     /**

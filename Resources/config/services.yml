@@ -2,3 +2,9 @@ services:
     idci_simplemedia.manager:
         class: IDCI\Bundle\SimpleMediaBundle\Service\Manager
         arguments: [@doctrine.orm.entity_manager, @form.factory]
+
+    idci_simplemedia.twig.simplemedia_extension:
+        class: IDCI\Bundle\SimpleMediaBundle\Twig\SimpleMediaExtension
+        arguments: [@idci_simplemedia.manager]
+        tags:
+            - { name: twig.extension }
