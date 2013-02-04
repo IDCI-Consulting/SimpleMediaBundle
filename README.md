@@ -39,8 +39,44 @@ Now the Bundle is installed.
 How to create a Media
 =====================
 
+To associate a media to an object, simply implements `MediaAssociableInterface`
 
+    <?php
+    ...
+    use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
 
+    /**
+     * Object
+     */
+    class MyObject implements MediaAssociableInterface
+    {
+        ...
+
+Then when you wish to upload and associate a media, simply call the `idci_simplemedia.manager`
+service to create you form and process it as explain below:
+
+    // This classic form creation
+    // $form = $this->createForm(new MyObjectType(), $myObject);
+
+    // Now work lik this:
+    $form = $this->get('idci_simplemedia.manager')->createForm(
+        new MyObjectType(),
+        $myObject,
+        array('provider' => 'file')
+    );
+
+As you can see, the third parameter allow you to choose a provider. For the moment
+only the file provider is ready to use.
+
+To save and associate you media to your object, call the `processForm` function like this:
+
+    if ($this->getRequest()->isMethod('POST')) {
+        $form->bind($this->getRequest());
+        if ($form->isValid()) {
+            $myObject = $this->get('idci_simplemedia.manager')->processForm($form);
+            return $this->redirect($this->generateUrl(...));
+        }
+    }
 
 How to retrive and display medias
 =================================
@@ -64,4 +100,25 @@ VIEW
 ----
 
 To display media in a twig template
+
+    <!-- Related to an object -->
+    <ul>
+      {% for media in medias(object) %}
+      <li><img src="{{ asset(media.url) }}" /></li>
+      {% endfor %}
+    </ul>
+
+    <!-- Related to an object filter on tags -->
+    <ul>
+      {% for media in medias(object, ['tag']) %}
+      <li><img src="{{ asset(media.url) }}" /></li>
+      {% endfor %}
+    </ul>
+
+    <!-- Related to tags -->
+    <ul>
+      {% for media in medias_tag(['tag1', 'tag2']) %}
+      <li><img src="{{ asset(media.url) }}" /></li>
+      {% endfor %}
+    </ul>
 
