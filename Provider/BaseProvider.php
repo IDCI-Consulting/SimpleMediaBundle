@@ -37,20 +37,24 @@ abstract class BaseProvider implements ProviderInterface
 
     /**
      * @param Media $media
-     * @return void
+     * @return boolean
      */
     public function transform(Media $media)
     {
+        if(!$this->isTransformable($media)) {
+            return false;
+        }
+
         $media->setProviderName($this->getName());
         $media->setProviderReference($this->generateReferenceName($media));
         $media->setProviderMetadataRaw(json_encode($this->getMetadata($media)));
-        //$media->setAuthor(null);
-        $this->doTransform($media);
+
+        return $this->doTransform($media);
     }
 
     /**
      * @param Media $media
-     * @return void
+     * @return boolean
      */
     abstract public function doTransform(Media $media);
 

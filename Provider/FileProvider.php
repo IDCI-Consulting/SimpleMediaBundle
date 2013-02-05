@@ -78,11 +78,25 @@ class FileProvider extends BaseProvider
 
     /**
      * @param Media $media
-     * @return void
+     * @return boolean
+     */
+    public function isTransformable(Media $media)
+    {
+        return $media->getBinaryContent() ? true : false;
+    }
+
+    /**
+     * @param Media $media
+     * @return boolean
      */
     public function doTransform(Media $media)
     {
-        $media->getBinaryContent()->move($this->getMediaRootDir(), $media->getProviderReference());
+        try {
+            $media->getBinaryContent()->move($this->getMediaRootDir(), $media->getProviderReference());
+        } catch(FileException $e) {
+            return false;
+        }
+
         $media->setName($media->getBinaryContent()->getClientOriginalName());
         $media->setSize($media->getBinaryContent()->getClientSize());
         $media->setContentType($media->getBinaryContent()->getClientMimeType());
@@ -90,5 +104,16 @@ class FileProvider extends BaseProvider
         list($width, $height) = getimagesize($this->getMediaPath($media));
         $media->setWidth($width);
         $media->setHeight($height);
+
+        return true;
+    }
+
+    /**
+     * @param Media $media
+     * @return void
+     */
+    public function remove(Media $media)
+    {
+        unlink($this->getMediaPath($media));
     }
 }

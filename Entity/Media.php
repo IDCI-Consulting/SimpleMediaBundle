@@ -164,15 +164,23 @@ class Media
     }
 
     /**
+     * Get provider
+     *
+     * @return ProviderInterface
+     */
+    public function getProvider()
+    {
+        return ProviderFactory::getInstance($this->getProviderName());
+    }
+
+    /**
      * Get url
      *
      * @return string 
      */
     public function getUrl()
     {
-        $provider = ProviderFactory::getInstance($this->getProviderName());
-
-        return $provider->getPublicUrl($this);
+        return $this->getProvider()->getPublicUrl($this);
     }
 
     /**
@@ -185,6 +193,7 @@ class Media
         $now = new \DateTime('now');
         $this->setCreatedAt($now);
         $this->setUpdatedAt($now);
+        $this->getProvider()->transform($this);
     }
 
     /**
@@ -196,6 +205,17 @@ class Media
     {
         $now = new \DateTime('now');
         $this->setUpdatedAt($now);
+        $this->getProvider()->transform($this);
+    }
+
+    /**
+     * onRemove
+     *
+     * @ORM\PreRemove
+     */
+    public function onRemove()
+    {
+        $this->getProvider()->remove($this);
     }
 
     /**

@@ -20,8 +20,6 @@ use IDCI\Bundle\SimpleMediaBundle\Form\TestType;
 class TestController extends Controller
 {
     /**
-     * index
-     *
      * @Route("/", name="test")
      * @Template()
      */
@@ -36,8 +34,6 @@ class TestController extends Controller
     }
 
     /**
-     * get
-     *
      * @Route("/get", name="test_get")
      * @Template()
      */
@@ -55,8 +51,6 @@ class TestController extends Controller
     }
 
     /**
-     * getbytags
-     *
      * @Route("/getbytags", name="test_getbytags")
      * @Template()
      */
@@ -72,8 +66,6 @@ class TestController extends Controller
     }
 
     /**
-     * displayForm
-     *
      * @Route("/create", name="createform")
      * @Template()
      */
@@ -97,5 +89,87 @@ class TestController extends Controller
         }
 
         return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/edit/{id}", name="editform")
+     * @Template()
+     */
+    public function editAction($id)
+    {
+        $test = $this->getDoctrine()
+            ->getRepository('IDCISimpleMediaBundle:Test')
+            ->findOneBy(array('id' => $id))
+        ;
+
+        if (!$test) {
+            throw $this->createNotFoundException('Unable to find test entity.');
+        }
+
+        //$form = $this->createForm(new TestType(), $test);
+        $form = $this->get('idci_simplemedia.manager')->createForm(
+            new TestType(),
+            $test,
+            array('provider' => 'file')
+        );
+
+        if ($this->getRequest()->isMethod('POST')) {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $test = $this->get('idci_simplemedia.manager')->processForm($form);
+                return $this->redirect($this->generateUrl('test'));
+            }
+        }
+
+        return array(
+            'test' => $test,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     * @Template()
+     */
+    public function deleteAction($id)
+    {
+        $test = $this->getDoctrine()
+            ->getRepository('IDCISimpleMediaBundle:Test')
+            ->findOneBy(array('id' => $id))
+        ;
+
+        if (!$test) {
+            throw $this->createNotFoundException('Unable to find test entity.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $this->get('idci_simplemedia.manager')->removeAssociatedMedias($test);
+        $em->remove($test);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('test'));
+    }
+
+    /**
+     * @Route("/deletemedia/{id}", name="deletemedia")
+     * @Template()
+     */
+    public function deleteMediaAction($id)
+    {
+        $media = $this->getDoctrine()
+            ->getRepository('IDCISimpleMediaBundle:Media')
+            ->findOneBy(array('id' => $id))
+        ;
+
+        if (!$media) {
+            throw $this->createNotFoundException('Unable to find media entity.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $this->get('idci_simplemedia.manager')->removeMedia($media);
+
+        return $this->redirect($this->generateUrl('test'));
     }
 }

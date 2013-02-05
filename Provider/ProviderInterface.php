@@ -43,9 +43,21 @@ interface ProviderInterface
 
     /**
      * @param Media $media
-     * @return void
+     * @return boolean
+     */
+    function isTransformable(Media $media);
+
+    /**
+     * @param Media $media
+     * @return boolean
      */
     function transform(Media $media);
+
+    /**
+     * @param Media $media
+     * @return void
+     */
+    function remove(Media $media);
 
     /**
      * @return string

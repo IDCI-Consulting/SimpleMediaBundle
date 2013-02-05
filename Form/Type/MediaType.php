@@ -23,6 +23,7 @@ abstract class MediaType extends AbstractType
         $builder
             ->add('description')
             ->add('enabled')
+            ->add('providerName', 'hidden')
         ;
     }
 

@@ -15,7 +15,7 @@ use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
 use IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Tag;
-use IDCI\Bundle\SimpleMediaBundle\Form\Type\AssociatedMediaType;
+use IDCI\Bundle\SimpleMediaBundle\Form\Type\MediaAssociableType;
 use IDCI\Bundle\SimpleMediaBundle\Form\Type\FileMediaType;
 use IDCI\Bundle\SimpleMediaBundle\Provider\ProviderFactory;
 
@@ -165,6 +165,38 @@ class Manager
     }
 
     /**
+     * remove Associated Medias
+     *
+     * @param MediaAssociableInterface $media_associable
+     * @return void
+     */
+    public function removeAssociatedMedias(MediaAssociableInterface $media_associable)
+    {
+        $associatedMedias = $this->getEntityManager()
+            ->getRepository('IDCISimpleMediaBundle:AssociatedMedia')
+            ->findBy(array('hash' => $this->getHash($media_associable)))
+        ;
+
+        foreach($associatedMedias as $associatedMedia) {
+            $this->removeMedia($associatedMedia->getMedia());
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * remove Media
+     *
+     * @param Media $media
+     * @return void
+     */
+    public function removeMedia(Media $media)
+    {
+        $this->getEntityManager()->remove($media);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
      * create a form based on the given on and attach media input fields
      *
      * @param FormType $form
@@ -173,9 +205,14 @@ class Manager
      */
     public function createForm($type, MediaAssociableInterface &$media_associable, array $options = array('provider' => 'file'))
     {
+        $associatedMedias = $this->getEntityManager()
+            ->getRepository('IDCISimpleMediaBundle:AssociatedMedia')
+            ->findBy(array('hash' => $this->getHash($media_associable)))
+        ;
+
         return $this->getFormFactory()->create(
-            new AssociatedMediaType(),
-            new AssociatedMedia(),
+            new MediaAssociableType(),
+            null,
             array(
                 'mediaAssociableType' => $type,
                 'mediaAssociable'     => $media_associable,
@@ -193,15 +230,12 @@ class Manager
      */
     public function processForm($form)
     {
-        $associatedMedia = $form->getData();
         $mediaAssociable = $form->get('mediaAssociable')->getData();
-        $media = $form->get('media')->getData();
-        $provider = ProviderFactory::getInstance($form->get('provider')->getData());
-        $provider->transform($media);
+        $associatedMedia = $form->get('associatedMedia')->getData();
+        $media = $associatedMedia->getMedia();
 
         $this->getEntityManager()->persist($mediaAssociable);
         $this->getEntityManager()->flush();
-
         $this->addMedia($mediaAssociable, $media, $associatedMedia->getTags());
 
         return $mediaAssociable;
