@@ -197,7 +197,7 @@ class Manager
     }
 
     /**
-     * create a form based on the given on and attach media input fields
+     * create a form based on a given Type/MediaAssociableInterface and attach media input fields
      *
      * @param FormType $form
      * @param array $options
@@ -205,11 +205,6 @@ class Manager
      */
     public function createForm($type, MediaAssociableInterface &$media_associable, array $options = array('provider' => 'file'))
     {
-        $associatedMedias = $this->getEntityManager()
-            ->getRepository('IDCISimpleMediaBundle:AssociatedMedia')
-            ->findBy(array('hash' => $this->getHash($media_associable)))
-        ;
-
         return $this->getFormFactory()->create(
             new MediaAssociableType(),
             null,
@@ -217,6 +212,7 @@ class Manager
                 'mediaAssociableType' => $type,
                 'mediaAssociable'     => $media_associable,
                 'provider'            => ProviderFactory::getInstance($options['provider']),
+                'hash'                => $this->getHash($media_associable),
                 'em'                  => $this->getEntityManager(),
             )
         );

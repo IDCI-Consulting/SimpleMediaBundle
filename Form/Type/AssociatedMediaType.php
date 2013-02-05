@@ -24,12 +24,11 @@ class AssociatedMediaType extends AbstractType
         $entityManager = $options['em'];
         $transformer = new TagsToListTransformer($entityManager);
 
-        $provider = $options['provider'];
+        $provider = $options['data']->getMedia()->getProvider();
 
         $builder
-            ->add('media', $provider->getFormType(), array(
-                'data' => $options['media']
-            ))
+            ->add('hash', 'hidden')
+            ->add('media', $provider->getFormType())
             ->add(
                 $builder->create('tags', 'text', array('required' => false))
                     ->addModelTransformer($transformer)
@@ -45,14 +44,10 @@ class AssociatedMediaType extends AbstractType
         ));
 
         $resolver->setRequired(array(
-            'provider',
-            'media',
             'em',
         ));
 
         $resolver->setAllowedTypes(array(
-            'provider'            => 'IDCI\Bundle\SimpleMediaBundle\Provider\ProviderInterface',
-            'media'               => 'IDCI\Bundle\SimpleMediaBundle\Entity\Media',
             'em'                  => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
