@@ -39,7 +39,7 @@ Now the Bundle is installed.
 How to create a Media
 =====================
 
-To associate a media to an object, simply implements `MediaAssociableInterface`
+To associate a media with an object, simply implements `MediaAssociableInterface`
 
     <?php
     ...
@@ -53,7 +53,7 @@ To associate a media to an object, simply implements `MediaAssociableInterface`
         ...
 
 Then when you wish to upload and associate a media, simply call the `idci_simplemedia.manager`
-service to create you form and process it as explain below:
+service to create a form and process it as explain below:
 
     // This classic form creation
     // $form = $this->createForm(new MyObjectType(), $myObject);
@@ -68,7 +68,7 @@ service to create you form and process it as explain below:
 As you can see, the third parameter allow you to choose a provider. For the moment
 only the file provider is ready to use.
 
-To save and associate you media to your object, call the `processForm` function like this:
+To save and associate a media with your object, call the `processForm` function like this:
 
     if ($this->getRequest()->isMethod('POST')) {
         $form->bind($this->getRequest());
@@ -95,6 +95,11 @@ the `MediaAssociableInterface`. So to retrieve a set of media:
     
     // Related to tags
     $medias = $this->get('idci_simplemedia.manager')->getMedias(null array('tag1', 'tag2'));
+
+To remove a media in association with your object `$obj`, use the `removeAssociatedMedias`
+function available throw the service like this:
+
+    $this->get('idci_simplemedia.manager')->removeAssociatedMedias($obj);
 
 VIEW
 ----
