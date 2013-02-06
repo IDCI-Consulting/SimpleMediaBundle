@@ -24,6 +24,11 @@ abstract class MediaType extends AbstractType
             ->add('description')
             ->add('enabled')
             ->add('providerName', 'hidden')
+            ->add('updated_at', 'datetime', array(
+               'data'       => new \DateTime('now'),
+               'attr'       => array('style'=>'display:none;'),
+               'label_attr' => array('style'=>'display:none;'),
+           ))
         ;
     }
 

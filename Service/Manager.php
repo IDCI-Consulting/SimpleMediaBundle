@@ -180,8 +180,6 @@ class Manager
         foreach($associatedMedias as $associatedMedia) {
             $this->removeMedia($associatedMedia->getMedia());
         }
-
-        $this->getEntityManager()->flush();
     }
 
     /**
@@ -193,7 +191,6 @@ class Manager
     public function removeMedia(Media $media)
     {
         $this->getEntityManager()->remove($media);
-        $this->getEntityManager()->flush();
     }
 
     /**

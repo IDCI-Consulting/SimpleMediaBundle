@@ -33,6 +33,12 @@ Enable the bundle in your application kernel:
         );
     }
 
+Include a resource in your `config.yml`
+
+    imports:
+        ....
+        - { resource: @IDCISimpleMediaBundle/Resources/config/config.yml }
+
 Now the Bundle is installed.
 
 
@@ -74,6 +80,7 @@ To save and associate a media with your object, call the `processForm` function 
         $form->bind($this->getRequest());
         if ($form->isValid()) {
             $myObject = $this->get('idci_simplemedia.manager')->processForm($form);
+
             return $this->redirect($this->generateUrl(...));
         }
     }
@@ -96,10 +103,16 @@ the `MediaAssociableInterface`. So to retrieve a set of media:
     // Related to tags
     $medias = $this->get('idci_simplemedia.manager')->getMedias(null array('tag1', 'tag2'));
 
-To remove a media in association with your object `$obj`, use the `removeAssociatedMedias`
+To remove all medias in association with your object `$obj`, use the `removeAssociatedMedias`
 function available throw the service like this:
 
     $this->get('idci_simplemedia.manager')->removeAssociatedMedias($obj);
+    $this->getDoctrine()->getManager()->flush();
+
+To remove just one media:
+
+    $this->get('idci_simplemedia.manager')->removeMedia($media);
+    $em->flush();
 
 VIEW
 ----

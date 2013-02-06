@@ -45,10 +45,6 @@ abstract class BaseProvider implements ProviderInterface
             return false;
         }
 
-        $media->setProviderName($this->getName());
-        $media->setProviderReference($this->generateReferenceName($media));
-        $media->setProviderMetadataRaw(json_encode($this->getMetadata($media)));
-
         return $this->doTransform($media);
     }
 

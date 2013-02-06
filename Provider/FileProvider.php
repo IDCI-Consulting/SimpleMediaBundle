@@ -91,6 +91,14 @@ class FileProvider extends BaseProvider
      */
     public function doTransform(Media $media)
     {
+        if($media->getProviderReference()) {
+            $this->remove($media);
+        }
+
+        $media->setProviderName($this->getName());
+        $media->setProviderReference($this->generateReferenceName($media));
+        $media->setProviderMetadataRaw(json_encode($this->getMetadata($media)));
+
         try {
             $media->getBinaryContent()->move($this->getMediaRootDir(), $media->getProviderReference());
         } catch(FileException $e) {

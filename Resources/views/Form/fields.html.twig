@@ -1,4 +1,6 @@
 {% block idcisimplemediabundle_filemediatype_widget %}
-    <img src="{{ asset(form.get('data').url) }}" class="simplemedia" alt="" title="" />
+    {% if form.get('data').id %}
+    <img src="{{ asset(form.get('data').url) }}" class="simplemedia" alt="{{ form.get('data').providerReference }}" title="{{ form.get('data').providerReference }}" />
+    {% endif %}
     {{ form_widget(form) }}
 {% endblock %}

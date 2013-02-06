@@ -169,6 +169,7 @@ class TestController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $this->get('idci_simplemedia.manager')->removeMedia($media);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('test'));
     }
