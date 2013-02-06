@@ -232,7 +232,10 @@ class Manager
 
         $this->getEntityManager()->persist($mediaAssociable);
         $this->getEntityManager()->flush();
-        $this->addMedia($mediaAssociable, $media, $associatedMedia->getTags());
+
+        if($media->isTransformable()) {
+            $this->addMedia($mediaAssociable, $media, $associatedMedia->getTags());
+        }
 
         return $mediaAssociable;
     }

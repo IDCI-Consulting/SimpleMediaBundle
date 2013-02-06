@@ -18,11 +18,11 @@ class FileMediaType extends MediaType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $builder
             ->add('binaryContent', 'file', array('required' => false))
         ;
+
+        parent::buildForm($builder, $options);
     }
 
     public function getName()

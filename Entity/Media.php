@@ -174,6 +174,16 @@ class Media
     }
 
     /**
+     * isTransformable
+     *
+     * @return boolean
+     */
+    public function isTransformable()
+    {
+        return $this->getProvider()->isTransformable($this);
+    }
+
+    /**
      * Get url
      *
      * @return string 

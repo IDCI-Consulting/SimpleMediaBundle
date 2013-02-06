@@ -1,0 +1,4 @@
+twig:
+    form:
+        resources:
+            - 'IDCISimpleMediaBundle:Form:fields.html.twig'
