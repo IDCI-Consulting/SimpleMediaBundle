@@ -17,6 +17,9 @@
         "twig/twig":                        "*",
         "doctrine/doctrine-bundle":         "*"
     },
+    "suggest": {
+        "avalanche123/imagine-bundle": "v2.1"
+    },
     "autoload": {
         "psr-0": { "IDCI\\Bundle\\SimpleMediaBundle": "" }
     },
