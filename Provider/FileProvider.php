@@ -47,7 +47,7 @@ class FileProvider extends BaseProvider
      */
     public function getUploadDir()
     {
-        return 'uploads/media';
+        return '/uploads/media';
     }
 
     /**

@@ -126,21 +126,21 @@ To display media in a twig template
     <!-- Related to an object -->
     <ul>
       {% for media in medias(object) %}
-      <li><img src="{{ asset(media.url) }}" /></li>
+      <li><img src="{{ media.url }}" /></li>
       {% endfor %}
     </ul>
 
     <!-- Related to an object filter on tags -->
     <ul>
       {% for media in medias(object, ['tag']) %}
-      <li><img src="{{ asset(media.url) }}" /></li>
+      <li><img src="{{ media.url }}" /></li>
       {% endfor %}
     </ul>
 
     <!-- Related to tags -->
     <ul>
       {% for media in medias_tag(['tag1', 'tag2']) %}
-      <li><img src="{{ asset(media.url) }}" /></li>
+      <li><img src="{{ media.url }}" /></li>
       {% endfor %}
     </ul>
 
