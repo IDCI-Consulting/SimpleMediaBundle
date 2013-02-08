@@ -41,6 +41,10 @@ Include a resource in your `config.yml`
 
 Now the Bundle is installed.
 
+Configure your database parameters in the `app/config/parameters.yml` then run
+
+    php app/console doctrine:schema:update --force
+
 
 How to create a Media
 =====================
