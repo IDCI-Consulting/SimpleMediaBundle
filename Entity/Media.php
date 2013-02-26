@@ -68,7 +68,7 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="providerMetadata", type="array")
+     * @ORM\Column(name="providerMetadata", type="json_array")
      */
     private $providerMetadata;
 
