@@ -68,15 +68,15 @@ service to create a form and process it as explain below:
     // This classic form creation
     // $form = $this->createForm(new MyObjectType(), $myObject);
 
-    // Now work lik this:
+    // Now work like this:
     $form = $this->get('idci_simplemedia.manager')->createForm(
         new MyObjectType(),
         $myObject,
         array('provider' => 'file')
     );
 
-As you can see, the third parameter allow you to choose a provider. For the moment
-only the file provider is ready to use.
+As you can see, the third parameter allow you to choose a provider.
+*For the moment only the file provider is ready to use.*
 
 To save and associate a media with your object, call the `processForm` function like this:
 

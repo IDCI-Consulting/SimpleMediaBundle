@@ -97,7 +97,7 @@ class FileProvider extends BaseProvider
 
         $media->setProviderName($this->getName());
         $media->setProviderReference($this->generateReferenceName($media));
-        $media->setProviderMetadataRaw(json_encode($this->getMetadata($media)));
+        $media->setProviderMetadata($this->getMetadata($media));
 
         try {
             $media->getBinaryContent()->move($this->getMediaRootDir(), $media->getProviderReference());

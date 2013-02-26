@@ -29,9 +29,9 @@ class AssociatedMediaType extends AbstractType
         $builder
             ->add('hash', 'hidden')
             ->add('media', $provider->getFormType())
-            ->add(
-                $builder->create('tags', 'text', array('required' => false))
-                    ->addModelTransformer($transformer)
+            ->add($builder
+                ->create('tags', 'text', array('required' => false))
+                ->addModelTransformer($transformer)
             )
         ;
     }

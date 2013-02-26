@@ -58,12 +58,12 @@ class Manager
     }
 
     /**
-     * Get Hash for a given object which mush implement MediaAssociableInterface
+     * Retrieve the classname for a given MediaAssociableInterface
      *
      * @param MediaAssociableInterface $media_associable
-     * @return string The generated hash
+     * @return string
      */
-    public function getHash(MediaAssociableInterface $media_associable)
+    public function getClassName(MediaAssociableInterface $media_associable)
     {
         $reflection = new \ReflectionClass($media_associable);
 
@@ -71,8 +71,19 @@ class Manager
             $reflection = $reflection->getParentClass();
         }
 
+        return $reflection->getName();
+    }
+
+    /**
+     * Get Hash for a given object which mush implement MediaAssociableInterface
+     *
+     * @param MediaAssociableInterface $media_associable
+     * @return string The generated hash
+     */
+    public function getHash(MediaAssociableInterface $media_associable)
+    {
         $raw = sprintf('%s_%s',
-            $reflection->getName(),
+            $this->getClassName($media_associable),
             $media_associable->getId()
         );
 
@@ -89,9 +100,13 @@ class Manager
      */
     public function addMedia(MediaAssociableInterface $media_associable, Media $media, $tags = array())
     {
-        $associatedMedia = new AssociatedMedia();
         $hash = $this->getHash($media_associable);
+        $className = $this->getClassName($media_associable);
+
+        $associatedMedia = new AssociatedMedia();
         $associatedMedia->setHash($hash);
+        $associatedMedia->setMediaAssociableClassName($className);
+        $associatedMedia->setMediaAssociableId($media_associable->getId());
         $associatedMedia->setMedia($media);
 
         foreach($tags as $tag) {

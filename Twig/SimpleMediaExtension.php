@@ -11,7 +11,6 @@ namespace IDCI\Bundle\SimpleMediaBundle\Twig;
 
 class SimpleMediaExtension extends \Twig_Extension
 {
-
     protected $mediaManager;
 
     public function __construct($media_manager)

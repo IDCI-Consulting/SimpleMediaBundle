@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="idci_media_associated_media", indexes={
  *     @ORM\Index(name="hash_idx", columns={"hash"})
- * }, uniqueConstraints={
+ * },uniqueConstraints={
  *     @ORM\UniqueConstraint(name="single_media_idx", columns={"hash", "media_id"})
  * })
  * @ORM\Entity(repositoryClass="IDCI\Bundle\SimpleMediaBundle\Repository\AssociatedMediaRepository")
@@ -38,6 +38,20 @@ class AssociatedMedia
      * @ORM\Column(name="hash", type="string", length=255)
      */
     private $hash;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="media_associable_classname", type="string", length=255)
+     */
+    private $mediaAssociableClassName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="media_associable_id", type="string", length=32)
+     */
+    private $mediaAssociableId;
 
     /**
      * media
@@ -66,6 +80,7 @@ class AssociatedMedia
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
     /**
      * Get id
      *
@@ -85,7 +100,7 @@ class AssociatedMedia
     public function setHash($hash)
     {
         $this->hash = $hash;
-    
+
         return $this;
     }
 
@@ -100,6 +115,52 @@ class AssociatedMedia
     }
 
     /**
+     * Set mediaAssociableClassName
+     *
+     * @param string $mediaAssociableClassName
+     * @return AssociatedMedia
+     */
+    public function setMediaAssociableClassName($mediaAssociableClassName)
+    {
+        $this->mediaAssociableClassName = $mediaAssociableClassName;
+
+        return $this;
+    }
+
+    /**
+     * Get mediaAssociableClassName
+     *
+     * @return string 
+     */
+    public function getMediaAssociableClassName()
+    {
+        return $this->mediaAssociableClassName;
+    }
+
+    /**
+     * Set mediaAssociableId
+     *
+     * @param string $mediaAssociableId
+     * @return AssociatedMedia
+     */
+    public function setMediaAssociableId($mediaAssociableId)
+    {
+        $this->mediaAssociableId = $mediaAssociableId;
+
+        return $this;
+    }
+
+    /**
+     * Get mediaAssociableId
+     *
+     * @return string 
+     */
+    public function getMediaAssociableId()
+    {
+        return $this->mediaAssociableId;
+    }
+
+    /**
      * Set media
      *
      * @param \IDCI\Bundle\SimpleMediaBundle\Entity\Media $media
@@ -108,14 +169,14 @@ class AssociatedMedia
     public function setMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\Media $media = null)
     {
         $this->media = $media;
-    
+
         return $this;
     }
 
     /**
      * Get media
      *
-     * @return \IDCI\Bundle\SimpleMediaBundle\Entity\Media 
+     * @return \IDCI\Bundle\SimpleMediaBundle\Entity\Media
      */
     public function getMedia()
     {
@@ -123,48 +184,35 @@ class AssociatedMedia
     }
 
     /**
-     * Add tags
+     * Add tag
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tags
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tag
      * @return AssociatedMedia
      */
-    public function addTag(\IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tags)
+    public function addTag(\IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tag)
     {
-        $this->tags[] = $tags;
-    
+        $this->tags[] = $tag;
+
         return $this;
     }
 
     /**
-     * Remove tags
+     * Remove tag
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tags
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tag
      */
-    public function removeTag(\IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tags)
+    public function removeTag(\IDCI\Bundle\SimpleMediaBundle\Entity\Tag $tag)
     {
-        $this->tags->removeElement($tags);
+        $this->tags->removeElement($tag);
     }
 
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTags()
     {
         return $this->tags;
-    }
-
-    /**
-     * Set tags
-     *
-     * @param DoctrineCollection $tags
-     * @return AssociatedMedia
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
-    
-        return $this;
     }
 }

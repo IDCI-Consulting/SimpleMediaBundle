@@ -68,9 +68,9 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="providerMetadataRaw", type="text")
+     * @ORM\Column(name="providerMetadata", type="array")
      */
-    private $providerMetadataRaw;
+    private $providerMetadata;
 
     /**
      * @var integer
@@ -149,7 +149,7 @@ class Media
     public function setBinaryContent($binaryContent)
     {
         $this->binaryContent = $binaryContent;
-    
+
         return $this;
     }
 
@@ -247,7 +247,7 @@ class Media
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
@@ -270,7 +270,7 @@ class Media
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -293,7 +293,7 @@ class Media
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
-    
+
         return $this;
     }
 
@@ -316,7 +316,7 @@ class Media
     public function setProviderName($providerName)
     {
         $this->providerName = $providerName;
-    
+
         return $this;
     }
 
@@ -339,7 +339,7 @@ class Media
     public function setProviderReference($providerReference)
     {
         $this->providerReference = $providerReference;
-    
+
         return $this;
     }
 
@@ -354,26 +354,26 @@ class Media
     }
 
     /**
-     * Set providerMetadataRaw
+     * Set providerMetadata
      *
-     * @param string $providerMetadataRaw
+     * @param string $providerMetadata
      * @return Media
      */
-    public function setProviderMetadataRaw($providerMetadataRaw)
+    public function setProviderMetadata($providerMetadata)
     {
-        $this->providerMetadataRaw = $providerMetadataRaw;
-    
+        $this->providerMetadata = $providerMetadata;
+
         return $this;
     }
 
     /**
-     * Get providerMetadataRaw
+     * Get providerMetadata
      *
      * @return string 
      */
-    public function getProviderMetadataRaw()
+    public function getProviderMetadata()
     {
-        return $this->providerMetadataRaw;
+        return $this->providerMetadata;
     }
 
     /**
@@ -385,7 +385,7 @@ class Media
     public function setWidth($width)
     {
         $this->width = $width;
-    
+
         return $this;
     }
 
@@ -408,7 +408,7 @@ class Media
     public function setHeight($height)
     {
         $this->height = $height;
-    
+
         return $this;
     }
 
@@ -431,7 +431,7 @@ class Media
     public function setSize($size)
     {
         $this->size = $size;
-    
+
         return $this;
     }
 
@@ -454,7 +454,7 @@ class Media
     public function setContentType($contentType)
     {
         $this->contentType = $contentType;
-    
+
         return $this;
     }
 
@@ -477,7 +477,7 @@ class Media
     public function setAuthor($author)
     {
         $this->author = $author;
-    
+
         return $this;
     }
 
@@ -500,7 +500,7 @@ class Media
     public function setUpdatedAt($updatedAt)
     {
         $this->updated_at = $updatedAt;
-    
+
         return $this;
     }
 
@@ -523,7 +523,7 @@ class Media
     public function setCreatedAt($createdAt)
     {
         $this->created_at = $createdAt;
-    
+
         return $this;
     }
 
@@ -540,24 +540,24 @@ class Media
     /**
      * Add associatedMedias
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedia
      * @return Media
      */
-    public function addAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias)
+    public function addAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedia)
     {
-        $this->associatedMedias[] = $associatedMedias;
-    
+        $this->associatedMedias[] = $associatedMedia;
+
         return $this;
     }
 
     /**
-     * Remove associatedMedias
+     * Remove associatedMedia
      *
-     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias
+     * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedia
      */
-    public function removeAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias)
+    public function removeAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedia)
     {
-        $this->associatedMedias->removeElement($associatedMedias);
+        $this->associatedMedias->removeElement($associatedMedia);
     }
 
     /**
