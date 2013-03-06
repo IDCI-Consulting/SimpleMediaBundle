@@ -31,18 +31,18 @@ class SimpleMediaExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'medias'     => new \Twig_Function_Method($this, 'get_medias'),
-            'medias_tag' => new \Twig_Function_Method($this, 'get_medias_by_tag'),
+            'medias'      => new \Twig_Function_Method($this, 'get_medias'),
+            'medias_tags' => new \Twig_Function_Method($this, 'get_tags'),
         );
     }
 
-    public function get_medias($media_associable, $tags = array())
+    public function get_medias($media_associable = null, $tags = array())
     {
         return $this->getMediaManager()->getMedias($media_associable, $tags);
     }
 
-    public function get_medias_by_tag($tags = array())
+    public function get_tags($media_associable = null)
     {
-        return $this->getMediaManager()->getMedias(null, $tags);
+        return $this->getMediaManager()->getTags($media_associable);
     }
 }

@@ -141,6 +141,22 @@ class Manager
     }
 
     /**
+     * Load tags
+     *
+     * @param string $tagNames
+     * @return array
+     */
+    public function loadTags($tagNames)
+    {
+        $tags = array();
+        foreach($tagNames as $tagName) {
+            $tag[] = $this->cleanTag($tagName);
+        }
+
+        return $tags;
+    }
+
+    /**
      * Tag exist
      *
      * @param string $tagName
@@ -148,8 +164,7 @@ class Manager
      */
     public function tagExist($tagName)
     {
-        $tag = $this
-            ->getEntityManager()
+        $tag = $this->getEntityManager()
             ->getRepository('IDCISimpleMediaBundle:Tag')
             ->findOneBy(array('name' => $tagName))
         ;
@@ -158,9 +173,30 @@ class Manager
     }
 
     /**
+     * Retrieve Tags (all or associated to a MediaAssociableInterface if given)
+     *
+     * @param MediaAssociableInterface|null $media_associable
+     * @return DoctrineCollection
+     */
+    public function getTags(MediaAssociableInterface $media_associable = null)
+    {
+        if(null !== $media_associable) {
+            return $this->getEntityManager()
+                ->getRepository('IDCISimpleMediaBundle:Tag')
+                ->findTagsForMedia($this->getHash($media_associable))
+            ;
+        } else {
+            return $this->getEntityManager()
+                ->getRepository('IDCISimpleMediaBundle:Tag')
+                ->findAll()
+            ;
+        }
+    }
+
+    /**
      * Get medias associated to a given MediaAssociableInterface object and or Tags
      *
-     * @param MediaAssociableInterface $media_associable
+     * @param MediaAssociableInterface|null $media_associable
      * @param array $tagNames
      * @return DoctrineCollection
      */

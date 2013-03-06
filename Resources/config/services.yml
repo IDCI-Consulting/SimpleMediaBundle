@@ -8,3 +8,9 @@ services:
         arguments: [@idci_simplemedia.manager]
         tags:
             - { name: twig.extension }
+
+    idci_simplemedia.type.mediatag:
+        class: IDCI\Bundle\SimpleMediaBundle\Form\Type\MediaTagType
+        arguments: [@idci_simplemedia.manager]
+        tags:
+            - { name: form.type, alias: media_tag }

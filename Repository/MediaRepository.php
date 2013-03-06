@@ -17,7 +17,7 @@ class MediaRepository extends EntityRepository
      * 
      * @param string $hash
      * @param boolean|null $enable_status
-     * @return entities
+     * @return DoctrineCollection
      */
     public function findMediasByHash($hash, $enable_status = null)
     {
@@ -73,7 +73,7 @@ class MediaRepository extends EntityRepository
      * @param string $hash
      * @param array $tagNames
      * @param boolean|null $enable_status 
-     * @return entities
+     * @return DoctrineCollection
      */
     public function findMediasByHashAndTags($hash, $tagNames, $enable_status = null)
     {
@@ -124,7 +124,7 @@ class MediaRepository extends EntityRepository
      * 
      * @param array $tagNames
      * @param boolean|null $enable_status 
-     * @return entities
+     * @return DoctrineCollection
      */
     public function findMediasByTags($tagNames, $enable_status = null)
     {

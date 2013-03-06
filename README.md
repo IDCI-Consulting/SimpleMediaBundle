@@ -139,8 +139,42 @@ To display media in a twig template
 
     <!-- Related to tags -->
     <ul>
-      {% for media in medias_tag(['tag1', 'tag2']) %}
+      {% for media in medias(null, ['tag1', 'tag2']) %}
       <li><img src="{{ media.url }}" /></li>
       {% endfor %}
     </ul>
 
+
+How to retrive and display medias tags
+======================================
+
+Controller
+----------
+
+In the following exemples, `$obj` has to be an instance of a class which implement
+the `MediaAssociableInterface`. So to retrieve a set of media:
+
+    // All tags
+    $tags = $this->get('idci_simplemedia.manager')->getTags();
+
+    // Related to an object
+    $tags = $this->get('idci_simplemedia.manager')->getTags($obj);
+
+VIEW
+----
+
+To retrieve tags in a twig template
+
+    <!-- All -->
+    <ul>
+      {% for tag in medias_tags %}
+      <li>{{ tag }}</li>
+      {% endfor %}
+    </ul>
+
+    <!-- Related to a media -->
+    <ul>
+      {% for tag in medias_tags(object) %}
+      <li>{{ tag }}</li>
+      {% endfor %}
+    </ul>
