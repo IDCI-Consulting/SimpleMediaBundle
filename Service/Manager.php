@@ -169,12 +169,12 @@ class Manager
         if(null !== $media_associable) {
             return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Media')
-                ->findMediasByHashAndTags($this->getHash($media_associable), $tagNames)
+                ->findMediasByHashAndTags($this->getHash($media_associable), $tagNames, true)
             ;
         } else {
             return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Media')
-                ->findMediasByTags($tagNames)
+                ->findMediasByTags($tagNames, true)
             ;
         }
     }
