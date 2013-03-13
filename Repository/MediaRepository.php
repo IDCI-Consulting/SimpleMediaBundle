@@ -160,8 +160,8 @@ class MediaRepository extends EntityRepository
 
         if(!is_null($enable_status)) {
             $qb
-                ->where('m.enabled = :enabled')
-                ->setParameters(array('enabled', $enable_status))
+                ->andWhere('m.enabled = :enabled')
+                ->setParameter('enabled', $enable_status)
             ;
         }
 
