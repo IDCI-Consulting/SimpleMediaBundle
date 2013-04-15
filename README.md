@@ -60,7 +60,7 @@ How to create a Media
 
 To associate a media with an object, simply implements `MediaAssociableInterface`
 
-```sh
+```php
 <?php
 ...
 use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
