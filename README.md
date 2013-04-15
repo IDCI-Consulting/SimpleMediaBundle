@@ -34,7 +34,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new IDCI\Bundle\SimpleMediaBundle\IDCISimpleMediaBundle()
+        new IDCI\Bundle\SimpleMediaBundle\IDCISimpleMediaBundle(),
     );
 }
 ```
