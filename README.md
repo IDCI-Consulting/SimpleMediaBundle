@@ -34,7 +34,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new IDCI\Bundle\SimpleMediaBundle\IDCISimpleMediaBundle()
+        new IDCI\Bundle\SimpleMediaBundle\IDCISimpleMediaBundle(),
     );
 }
 ```
@@ -60,7 +60,7 @@ How to create a Media
 
 To associate a media with an object, simply implements `MediaAssociableInterface`
 
-```sh
+```php
 <?php
 ...
 use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
