@@ -14,7 +14,7 @@ First add the dependencies to your `composer.json` file:
 ```json
 "require": {
     ...
-    "idci/simple-media-bundle":     "dev-master"
+    "idci/simple-media-bundle": "2.1.*@dev"
 },
 ```
 
