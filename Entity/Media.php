@@ -75,21 +75,21 @@ class Media
     /**
      * @var integer
      *
-     * @ORM\Column(name="width", type="integer")
+     * @ORM\Column(name="width", type="integer", nullable=true)
      */
     private $width;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="heigth", type="integer")
+     * @ORM\Column(name="heigth", type="integer", nullable=true)
      */
     private $height;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="size", type="integer")
+     * @ORM\Column(name="size", type="integer", nullable=true)
      */
     private $size;
 

@@ -15,11 +15,13 @@ namespace IDCI\Bundle\SimpleMediaBundle\Provider;
 abstract class ProviderFactory
 {
     static $CLASS_PROVIDER_FILE = 'FileProvider';
+    static $CLASS_PROVIDER_YOUTUBE = 'YoutubeProvider';
 
     public static function getNameClassMap()
     {
         return array(
-            'file' => self::$CLASS_PROVIDER_FILE
+            'file'    => self::$CLASS_PROVIDER_FILE,
+            'youtube' => self::$CLASS_PROVIDER_YOUTUBE,
         );
     }
 
