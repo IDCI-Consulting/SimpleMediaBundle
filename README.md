@@ -4,7 +4,7 @@ SimpleMediaBundle
 Symfony2 simple media bundle
 
 
-Instalation
+Installation
 ===========
 
 To install this bundle please follow the next steps:
