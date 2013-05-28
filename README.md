@@ -121,7 +121,7 @@ $medias = $this->get('idci_simplemedia.manager')->getMedias($obj);
 $medias = $this->get('idci_simplemedia.manager')->getMedias($obj, array('tag1', 'tag2'));
 
 // Related to tags
-$medias = $this->get('idci_simplemedia.manager')->getMedias(null array('tag1', 'tag2'));
+$medias = $this->get('idci_simplemedia.manager')->getMedias(null, array('tag1', 'tag2'));
 ```
 
 To remove all medias in association with your object `$obj`, use the `removeAssociatedMedias`
