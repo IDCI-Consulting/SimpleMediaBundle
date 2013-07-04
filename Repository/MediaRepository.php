@@ -5,6 +5,7 @@ namespace IDCI\Bundle\SimpleMediaBundle\Repository;
 /**
  * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
+ * @license: GPL
  *
  */
 
