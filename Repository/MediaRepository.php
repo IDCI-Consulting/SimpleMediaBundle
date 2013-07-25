@@ -17,12 +17,12 @@ class MediaRepository extends EntityRepository
      * Find medias for a given hash 
      * 
      * @param string $hash
-     * @param boolean|null $enable_status
+     * @param boolean|null $enableStatus
      * @return DoctrineCollection
      */
-    public function findMediasByHash($hash, $enable_status = null)
+    public function findMediasByHash($hash, $enableStatus = null)
     {
-        $q = $this->findMediasByHashQuery($hash, $enable_status);
+        $q = $this->findMediasByHashQuery($hash, $enableStatus);
 
         return is_null($q) ? array() : $q->getResult();
     }
@@ -31,12 +31,12 @@ class MediaRepository extends EntityRepository
      * Find medias for a given hash based on a query
      * 
      * @param string $hash
-     * @param boolean|null $enable_status
+     * @param boolean|null $enableStatus
      * @return DoctrineQuery
      */
-    public function findMediasByHashQuery($hash, $enable_status = null)
+    public function findMediasByHashQuery($hash, $enableStatus = null)
     {
-        $qb = $this->findMediasByHashQueryBuilder($hash, $enable_status);
+        $qb = $this->findMediasByHashQueryBuilder($hash, $enableStatus);
 
         return is_null($qb) ? $qb : $qb->getQuery();
     }
@@ -45,10 +45,10 @@ class MediaRepository extends EntityRepository
      * Find medias for a given hash based on a query builder
      * 
      * @param string $hash
-     * @param boolean|null $enable_status
+     * @param boolean|null $enableStatus
      * @return DoctrineQueryBuilder
      */
-    public function findMediasByHashQueryBuilder($hash, $enable_status = null)
+    public function findMediasByHashQueryBuilder($hash, $enableStatus = null)
     {
         $qb = $this->createQueryBuilder('m');
 
@@ -58,10 +58,10 @@ class MediaRepository extends EntityRepository
             ->setParameter('hash', $hash)
         ;
 
-        if(!is_null($enable_status)) {
+        if(!is_null($enableStatus)) {
             $qb
                 ->andWhere('m.enabled = :enabled')
-                ->setParameter('enabled', $enable_status)
+                ->setParameter('enabled', $enableStatus)
             ;
         }
 
@@ -73,12 +73,12 @@ class MediaRepository extends EntityRepository
      *
      * @param string $hash
      * @param array $tagNames
-     * @param boolean|null $enable_status 
+     * @param boolean|null $enableStatus 
      * @return DoctrineCollection
      */
-    public function findMediasByHashAndTags($hash, $tagNames, $enable_status = null)
+    public function findMediasByHashAndTags($hash, $tagNames, $enableStatus = null)
     {
-        $q = $this->findMediasByHashAndTagsQuery($hash, $tagNames, $enable_status);
+        $q = $this->findMediasByHashAndTagsQuery($hash, $tagNames, $enableStatus);
 
         return is_null($q) ? array() : $q->getResult();
     }
@@ -88,12 +88,12 @@ class MediaRepository extends EntityRepository
      *
      * @param string $hash
      * @param array $tagNames
-     * @param boolean|null $enable_status 
+     * @param boolean|null $enableStatus 
      * @return DoctrineQuery
      */
-    public function findMediasByHashAndTagsQuery($hash, $tagNames, $enable_status = null)
+    public function findMediasByHashAndTagsQuery($hash, $tagNames, $enableStatus = null)
     {
-        $qb = $this->findMediasByHashAndTagsQueryBuilder($hash, $tagNames, $enable_status);
+        $qb = $this->findMediasByHashAndTagsQueryBuilder($hash, $tagNames, $enableStatus);
 
         return is_null($qb) ? $qb : $qb->getQuery();
     }
@@ -103,12 +103,12 @@ class MediaRepository extends EntityRepository
      *
      * @param string $hash
      * @param array $tagNames
-     * @param boolean|null $enable_status 
+     * @param boolean|null $enableStatus 
      * @return DoctrineQueryBuilder
      */
-    public function findMediasByHashAndTagsQueryBuilder($hash, $tagNames, $enable_status = null)
+    public function findMediasByHashAndTagsQueryBuilder($hash, $tagNames, $enableStatus = null)
     {
-        $qb = $this->findMediasByHashQueryBuilder($hash, $enable_status);
+        $qb = $this->findMediasByHashQueryBuilder($hash, $enableStatus);
 
         if(isset($tagNames[0])) {
             $qb
@@ -124,12 +124,12 @@ class MediaRepository extends EntityRepository
      * Find medias by tag's names
      * 
      * @param array $tagNames
-     * @param boolean|null $enable_status 
+     * @param boolean|null $enableStatus 
      * @return DoctrineCollection
      */
-    public function findMediasByTags($tagNames, $enable_status = null)
+    public function findMediasByTags($tagNames, $enableStatus = null)
     {
-        $q = $this->findMediasByTagsQuery($tagNames, $enable_status);
+        $q = $this->findMediasByTagsQuery($tagNames, $enableStatus);
 
         return is_null($q) ? array() : $q->getResult();
     }
@@ -138,12 +138,12 @@ class MediaRepository extends EntityRepository
      * Find medias filter by tag's names based on a query
      * 
      * @param array $tagNames
-     * @param boolean|null $enable_status
+     * @param boolean|null $enableStatus
      * @return DoctrineQuery
      */
-    public function findMediasByTagsQuery($tagNames, $enable_status = null)
+    public function findMediasByTagsQuery($tagNames, $enableStatus = null)
     {
-        $qb = $this->findMediasByTagsQueryBuilder($tagNames, $enable_status);
+        $qb = $this->findMediasByTagsQueryBuilder($tagNames, $enableStatus);
 
         return is_null($qb) ? $qb : $qb->getQuery();
     }
@@ -152,17 +152,17 @@ class MediaRepository extends EntityRepository
      * Find medias filter by tag's names based on a query builder
      * 
      * @param array $tagNames
-     * @param boolean|null $enable_status
+     * @param boolean|null $enableStatus
      * @return DoctrineQueryBuilder
      */
-    public function findMediasByTagsQueryBuilder($tagNames, $enable_status = null)
+    public function findMediasByTagsQueryBuilder($tagNames, $enableStatus = null)
     {
         $qb = $this->createQueryBuilder('m');
 
-        if(!is_null($enable_status)) {
+        if(!is_null($enableStatus)) {
             $qb
                 ->andWhere('m.enabled = :enabled')
-                ->setParameter('enabled', $enable_status)
+                ->setParameter('enabled', $enableStatus)
             ;
         }
 

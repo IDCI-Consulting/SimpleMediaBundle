@@ -24,10 +24,10 @@ class Manager
     protected $em;
     protected $formFactory;
 
-    public function __construct(EntityManager $em, FormFactory $form_factory)
+    public function __construct(EntityManager $em, FormFactory $formFactory)
     {
         $this->em = $em;
-        $this->formFactory = $form_factory;
+        $this->formFactory = $formFactory;
     }
 
     /**
@@ -60,12 +60,12 @@ class Manager
     /**
      * Retrieve the classname for a given MediaAssociableInterface
      *
-     * @param MediaAssociableInterface $media_associable
+     * @param MediaAssociableInterface $mediaAssociable
      * @return string
      */
-    public function getClassName(MediaAssociableInterface $media_associable)
+    public function getClassName(MediaAssociableInterface $mediaAssociable)
     {
-        $reflection = new \ReflectionClass($media_associable);
+        $reflection = new \ReflectionClass($mediaAssociable);
 
         if(self::isProxyClass($reflection) && $reflection->getParentClass()) {
             $reflection = $reflection->getParentClass();
@@ -77,14 +77,14 @@ class Manager
     /**
      * Get Hash for a given object which mush implement MediaAssociableInterface
      *
-     * @param MediaAssociableInterface $media_associable
+     * @param MediaAssociableInterface $mediaAssociable
      * @return string The generated hash
      */
-    public function getHash(MediaAssociableInterface $media_associable)
+    public function getHash(MediaAssociableInterface $mediaAssociable)
     {
         $raw = sprintf('%s_%s',
-            $this->getClassName($media_associable),
-            $media_associable->getId()
+            $this->getClassName($mediaAssociable),
+            $mediaAssociable->getId()
         );
 
         return md5($raw);
@@ -93,20 +93,20 @@ class Manager
     /**
      * Add media attach a media to a given MediaAssociableInterface object
      *
-     * @param MediaAssociableInterface $media_associable
+     * @param MediaAssociableInterface $mediaAssociable
      * @param Media $media
      * @param array $tags
      * @return void
      */
-    public function addMedia(MediaAssociableInterface $media_associable, Media $media, $tags = array())
+    public function addMedia(MediaAssociableInterface $mediaAssociable, Media $media, $tags = array())
     {
-        $hash = $this->getHash($media_associable);
-        $className = $this->getClassName($media_associable);
+        $hash = $this->getHash($mediaAssociable);
+        $className = $this->getClassName($mediaAssociable);
 
         $associatedMedia = new AssociatedMedia();
         $associatedMedia->setHash($hash);
         $associatedMedia->setMediaAssociableClassName($className);
-        $associatedMedia->setMediaAssociableId($media_associable->getId());
+        $associatedMedia->setMediaAssociableId($mediaAssociable->getId());
         $associatedMedia->setMedia($media);
 
         foreach($tags as $tag) {
@@ -175,15 +175,15 @@ class Manager
     /**
      * Retrieve Tags (all or associated to a MediaAssociableInterface if given)
      *
-     * @param MediaAssociableInterface|null $media_associable
+     * @param MediaAssociableInterface|null $mediaAssociable
      * @return DoctrineCollection
      */
-    public function getTags(MediaAssociableInterface $media_associable = null)
+    public function getTags(MediaAssociableInterface $mediaAssociable = null)
     {
-        if(null !== $media_associable) {
+        if(null !== $mediaAssociable) {
             return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Tag')
-                ->findTagsForMedia($this->getHash($media_associable))
+                ->findTagsForMedia($this->getHash($mediaAssociable))
             ;
         } else {
             return $this->getEntityManager()
@@ -196,16 +196,16 @@ class Manager
     /**
      * Get medias associated to a given MediaAssociableInterface object and or Tags
      *
-     * @param MediaAssociableInterface|null $media_associable
+     * @param MediaAssociableInterface|null $mediaAssociable
      * @param array $tagNames
      * @return DoctrineCollection
      */
-    public function getMedias(MediaAssociableInterface $media_associable = null, $tagNames = array())
+    public function getMedias(MediaAssociableInterface $mediaAssociable = null, $tagNames = array())
     {
-        if(null !== $media_associable) {
+        if(null !== $mediaAssociable) {
             return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Media')
-                ->findMediasByHashAndTags($this->getHash($media_associable), $tagNames, true)
+                ->findMediasByHashAndTags($this->getHash($mediaAssociable), $tagNames, true)
             ;
         } else {
             return $this->getEntityManager()
@@ -218,14 +218,14 @@ class Manager
     /**
      * remove Associated Medias
      *
-     * @param MediaAssociableInterface $media_associable
+     * @param MediaAssociableInterface $mediaAssociable
      * @return void
      */
-    public function removeAssociatedMedias(MediaAssociableInterface $media_associable)
+    public function removeAssociatedMedias(MediaAssociableInterface $mediaAssociable)
     {
         $associatedMedias = $this->getEntityManager()
             ->getRepository('IDCISimpleMediaBundle:AssociatedMedia')
-            ->findBy(array('hash' => $this->getHash($media_associable)))
+            ->findBy(array('hash' => $this->getHash($mediaAssociable)))
         ;
 
         foreach($associatedMedias as $associatedMedia) {
@@ -251,16 +251,16 @@ class Manager
      * @param array $options
      * @return FormType
      */
-    public function createForm($type, MediaAssociableInterface &$media_associable, array $options = array('provider' => 'file'))
+    public function createForm($type, MediaAssociableInterface &$mediaAssociable, array $options = array('provider' => 'file'))
     {
         return $this->getFormFactory()->create(
             new MediaAssociableType(),
             null,
             array(
                 'mediaAssociableType' => $type,
-                'mediaAssociable'     => $media_associable,
+                'mediaAssociable'     => $mediaAssociable,
                 'provider'            => ProviderFactory::getInstance($options['provider']),
-                'hash'                => $this->getHash($media_associable),
+                'hash'                => $this->getHash($mediaAssociable),
                 'em'                  => $this->getEntityManager(),
             )
         );
