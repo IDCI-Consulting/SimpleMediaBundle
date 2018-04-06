@@ -1,23 +1,20 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Form\FormFactory;
-use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
-use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
 use IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia;
+use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
+use IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Tag;
 use IDCI\Bundle\SimpleMediaBundle\Form\Type\MediaAssociableType;
-use IDCI\Bundle\SimpleMediaBundle\Form\Type\FileMediaType;
 use IDCI\Bundle\SimpleMediaBundle\Provider\ProviderFactory;
+use Symfony\Component\Form\FormFactory;
 
 class Manager
 {
@@ -47,10 +44,11 @@ class Manager
     }
 
     /**
-     * Is a proxy class
+     * Is a proxy class.
      *
      * @param ReflectionClass $reflection
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isProxyClass(\ReflectionClass $reflection)
     {
@@ -58,16 +56,17 @@ class Manager
     }
 
     /**
-     * Retrieve the classname for a given MediaAssociableInterface
+     * Retrieve the classname for a given MediaAssociableInterface.
      *
      * @param MediaAssociableInterface $mediaAssociable
+     *
      * @return string
      */
     public function getClassName(MediaAssociableInterface $mediaAssociable)
     {
         $reflection = new \ReflectionClass($mediaAssociable);
 
-        if(self::isProxyClass($reflection) && $reflection->getParentClass()) {
+        if (self::isProxyClass($reflection) && $reflection->getParentClass()) {
             $reflection = $reflection->getParentClass();
         }
 
@@ -75,9 +74,10 @@ class Manager
     }
 
     /**
-     * Get Hash for a given object which mush implement MediaAssociableInterface
+     * Get Hash for a given object which mush implement MediaAssociableInterface.
      *
      * @param MediaAssociableInterface $mediaAssociable
+     *
      * @return string The generated hash
      */
     public function getHash(MediaAssociableInterface $mediaAssociable)
@@ -91,12 +91,11 @@ class Manager
     }
 
     /**
-     * Add media attach a media to a given MediaAssociableInterface object
+     * Add media attach a media to a given MediaAssociableInterface object.
      *
      * @param MediaAssociableInterface $mediaAssociable
-     * @param Media $media
-     * @param array $tags
-     * @return void
+     * @param Media                    $media
+     * @param array                    $tags
      */
     public function addMedia(MediaAssociableInterface $mediaAssociable, Media $media, $tags = array())
     {
@@ -109,7 +108,7 @@ class Manager
         $associatedMedia->setMediaAssociableId($mediaAssociable->getId());
         $associatedMedia->setMedia($media);
 
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             $associatedMedia->addTag($this->cleanTag($tag));
         }
 
@@ -118,22 +117,23 @@ class Manager
     }
 
     /**
-     * Clean tag
+     * Clean tag.
      *
      * @param Tag|string $tag
+     *
      * @return Tag
      */
     public function cleanTag($tag)
     {
-        if($tag instanceof Tag) {
-            if($t = $this->tagExist($tag->getName())) {
+        if ($tag instanceof Tag) {
+            if ($t = $this->tagExist($tag->getName())) {
                 return $t;
             }
 
             return $tag;
         }
 
-        if($t = $this->tagExist($tag)) {
+        if ($t = $this->tagExist($tag)) {
             return $t;
         }
 
@@ -141,15 +141,16 @@ class Manager
     }
 
     /**
-     * Load tags
+     * Load tags.
      *
      * @param string $tagNames
+     *
      * @return array
      */
     public function loadTags($tagNames)
     {
         $tags = array();
-        foreach($tagNames as $tagName) {
+        foreach ($tagNames as $tagName) {
             $tag[] = $this->cleanTag($tagName);
         }
 
@@ -157,9 +158,10 @@ class Manager
     }
 
     /**
-     * Tag exist
+     * Tag exist.
      *
      * @param string $tagName
+     *
      * @return Tag|false
      */
     public function tagExist($tagName)
@@ -173,14 +175,15 @@ class Manager
     }
 
     /**
-     * Retrieve Tags (all or associated to a MediaAssociableInterface if given)
+     * Retrieve Tags (all or associated to a MediaAssociableInterface if given).
      *
      * @param MediaAssociableInterface|null $mediaAssociable
+     *
      * @return DoctrineCollection
      */
     public function getTags(MediaAssociableInterface $mediaAssociable = null)
     {
-        if(null !== $mediaAssociable) {
+        if (null !== $mediaAssociable) {
             return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Tag')
                 ->findTagsForMedia($this->getHash($mediaAssociable))
@@ -194,15 +197,16 @@ class Manager
     }
 
     /**
-     * Get medias associated to a given MediaAssociableInterface object and or Tags
+     * Get medias associated to a given MediaAssociableInterface object and or Tags.
      *
      * @param MediaAssociableInterface|null $mediaAssociable
-     * @param array $tagNames
+     * @param array                         $tagNames
+     *
      * @return DoctrineCollection
      */
     public function getMedias(MediaAssociableInterface $mediaAssociable = null, $tagNames = array())
     {
-        if(null !== $mediaAssociable) {
+        if (null !== $mediaAssociable) {
             return $this->getEntityManager()
                 ->getRepository('IDCISimpleMediaBundle:Media')
                 ->findMediasByHashAndTags($this->getHash($mediaAssociable), $tagNames, true)
@@ -216,10 +220,9 @@ class Manager
     }
 
     /**
-     * remove Associated Medias
+     * remove Associated Medias.
      *
      * @param MediaAssociableInterface $mediaAssociable
-     * @return void
      */
     public function removeAssociatedMedias(MediaAssociableInterface $mediaAssociable)
     {
@@ -228,16 +231,15 @@ class Manager
             ->findBy(array('hash' => $this->getHash($mediaAssociable)))
         ;
 
-        foreach($associatedMedias as $associatedMedia) {
+        foreach ($associatedMedias as $associatedMedia) {
             $this->removeMedia($associatedMedia->getMedia());
         }
     }
 
     /**
-     * remove Media
+     * remove Media.
      *
      * @param Media $media
-     * @return void
      */
     public function removeMedia(Media $media)
     {
@@ -245,10 +247,11 @@ class Manager
     }
 
     /**
-     * create a form based on a given Type/MediaAssociableInterface and attach media input fields
+     * create a form based on a given Type/MediaAssociableInterface and attach media input fields.
      *
      * @param FormType $form
-     * @param array $options
+     * @param array    $options
+     *
      * @return FormType
      */
     public function createForm($type, MediaAssociableInterface &$mediaAssociable, array $options = array('provider' => 'file'))
@@ -258,19 +261,18 @@ class Manager
             null,
             array(
                 'mediaAssociableType' => $type,
-                'mediaAssociable'     => $mediaAssociable,
-                'provider'            => ProviderFactory::getInstance($options['provider']),
-                'hash'                => $this->getHash($mediaAssociable),
-                'em'                  => $this->getEntityManager(),
+                'mediaAssociable' => $mediaAssociable,
+                'provider' => ProviderFactory::getInstance($options['provider']),
+                'hash' => $this->getHash($mediaAssociable),
+                'em' => $this->getEntityManager(),
             )
         );
     }
 
     /**
-     * process a form
+     * process a form.
      *
      * @param Form $form
-     * @return void
      */
     public function processForm($form)
     {
@@ -281,7 +283,7 @@ class Manager
         $this->getEntityManager()->persist($mediaAssociable);
         $this->getEntityManager()->flush();
 
-        if($media->isTransformable()) {
+        if ($media->isTransformable()) {
             $this->addMedia($mediaAssociable, $media, $associatedMedia->getTags());
         }
 

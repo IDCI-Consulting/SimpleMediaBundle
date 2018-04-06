@@ -1,10 +1,8 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Entity;
@@ -12,7 +10,7 @@ namespace IDCI\Bundle\SimpleMediaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Media
+ * Media.
  *
  * @ORM\Table(name="idci_media_tag")
  * @ORM\Entity(repositoryClass="IDCI\Bundle\SimpleMediaBundle\Repository\TagRepository")
@@ -20,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Tag
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -41,7 +39,7 @@ class Tag
     private $associatedMedias;
 
     /**
-     * toString
+     * toString.
      *
      * @return string
      */
@@ -51,7 +49,7 @@ class Tag
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct($tagName = null)
     {
@@ -60,9 +58,9 @@ class Tag
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -70,22 +68,23 @@ class Tag
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return Tag
      */
     public function setName($name)
     {
         $this->name = trim($name);
-    
+
         return $this;
     }
 
     /**
-     * Get name
+     * Get name.
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -93,20 +92,21 @@ class Tag
     }
 
     /**
-     * Add associatedMedias
+     * Add associatedMedias.
      *
      * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias
+     *
      * @return Tag
      */
     public function addAssociatedMedia(\IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias)
     {
         $this->associatedMedias[] = $associatedMedias;
-    
+
         return $this;
     }
 
     /**
-     * Remove associatedMedias
+     * Remove associatedMedias.
      *
      * @param \IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia $associatedMedias
      */
@@ -116,9 +116,9 @@ class Tag
     }
 
     /**
-     * Get associatedMedias
+     * Get associatedMedias.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAssociatedMedias()
     {

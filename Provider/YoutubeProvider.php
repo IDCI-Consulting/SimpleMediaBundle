@@ -1,10 +1,8 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Provider;
@@ -12,15 +10,15 @@ namespace IDCI\Bundle\SimpleMediaBundle\Provider;
 use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
 
 /**
- * YoutubeProvider
+ * YoutubeProvider.
  */
 class YoutubeProvider extends BaseProvider
 {
-    const FEEDS_API_VIDEO_URL_FORMAT = "https://gdata.youtube.com/feeds/api/videos/%s?v=2";
+    const FEEDS_API_VIDEO_URL_FORMAT = 'https://gdata.youtube.com/feeds/api/videos/%s?v=2';
 
     public function __construct()
     {
-        $this->name = "youtube";
+        $this->name = 'youtube';
     }
 
     public function doTransform(Media $media)
@@ -31,7 +29,7 @@ class YoutubeProvider extends BaseProvider
         $media->setName($this->getPublicUrl($media));
         $media->setAuthor($this->getAuthor($media));
         $media->setDescription($this->getDescription($media));
-        $media->setContentType("application/x-shockwave-flash");
+        $media->setContentType('application/x-shockwave-flash');
 
         return true;
     }
@@ -43,7 +41,7 @@ class YoutubeProvider extends BaseProvider
 
     public function getPublicUrl(Media $media)
     {
-        return sprintf("http://www.youtube.com/embed/%s", $this->generateReferenceName($media));
+        return sprintf('http://www.youtube.com/embed/%s', $this->generateReferenceName($media));
     }
 
     public function isTransformable(Media $media)
@@ -58,7 +56,6 @@ class YoutubeProvider extends BaseProvider
 
     public function getMetadata(Media $media)
     {
-        
         $metas = array();
         $xml = simplexml_load_file(sprintf(
             self::FEEDS_API_VIDEO_URL_FORMAT,
@@ -72,13 +69,13 @@ class YoutubeProvider extends BaseProvider
 
         // Retrieve all metadata linked to the properties of the video
         foreach ($xml->xpath('//yt:uploaded') as $node) {
-            $metas["uploaded"] = $node[0]->__toString();
+            $metas['uploaded'] = $node[0]->__toString();
         }
         foreach ($xml->xpath('//yt:aspectRatio') as $node) {
-            $metas["aspectRatio"] = $node[0]->__toString();
+            $metas['aspectRatio'] = $node[0]->__toString();
         }
         foreach ($xml->xpath('//yt:duration/@seconds') as $node) {
-            $metas["duration"] = $node[0]->__toString();
+            $metas['duration'] = $node[0]->__toString();
         }
 
         return $metas;
@@ -86,7 +83,6 @@ class YoutubeProvider extends BaseProvider
 
     public function getAuthor(Media $media)
     {
-        
         $xml = simplexml_load_file(sprintf(
             self::FEEDS_API_VIDEO_URL_FORMAT,
             $media->getProviderReference()
@@ -110,15 +106,16 @@ class YoutubeProvider extends BaseProvider
         return $description;
     }
 
-   /**
-    * Get youtube video ID from URL
-    *
-    * @param string $url
-    * @return string Youtube video id or FALSE if none found. 
-    */
-    function getYoutubeIdFromUrl($url)
+    /**
+     * Get youtube video ID from URL.
+     *
+     * @param string $url
+     *
+     * @return string youtube video id or FALSE if none found
+     */
+    public function getYoutubeIdFromUrl($url)
     {
-        $pattern = 
+        $pattern =
             '%^             # Match any youtube URL
             (?:https?://)?  # Optional scheme. Either http or https
             (?:www\.)?      # Optional www subdomain

@@ -1,21 +1,20 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Form\Type;
 
+use IDCI\Bundle\SimpleMediaBundle\Form\DataTransformer\TagsToListTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type as Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use IDCI\Bundle\SimpleMediaBundle\Form\DataTransformer\TagsToListTransformer;
 
 /**
- * AssociatedMediaType
+ * AssociatedMediaType.
  */
 class AssociatedMediaType extends AbstractType
 {
@@ -27,10 +26,10 @@ class AssociatedMediaType extends AbstractType
         $provider = $options['data']->getMedia()->getProvider();
 
         $builder
-            ->add('hash', 'hidden')
+            ->add('hash', Type\HiddenType::class)
             ->add('media', $provider->getFormType())
             ->add($builder
-                ->create('tags', 'text', array('required' => false))
+                ->create('tags', Type\TextType::class, array('required' => false))
                 ->addModelTransformer($transformer)
             )
         ;
@@ -39,8 +38,8 @@ class AssociatedMediaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'          => 'IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia',
-            'cascade_validation'  => true,
+            'data_class' => 'IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia',
+            'cascade_validation' => true,
         ));
 
         $resolver->setRequired(array(
@@ -48,7 +47,7 @@ class AssociatedMediaType extends AbstractType
         ));
 
         $resolver->setAllowedTypes(array(
-            'em'                  => 'Doctrine\Common\Persistence\ObjectManager',
+            'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
 

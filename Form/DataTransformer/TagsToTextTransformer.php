@@ -1,18 +1,13 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\Common\Persistence\ObjectManager;
-use IDCI\Bundle\SimpleMediaBundle\Entity\Tag;
 
 class TagsToTextTransformer implements DataTransformerInterface
 {
@@ -32,6 +27,7 @@ class TagsToTextTransformer implements DataTransformerInterface
      * Transforms tags to a string.
      *
      * @param array|null $tags
+     *
      * @return string
      */
     public function transform($tags)
@@ -39,7 +35,7 @@ class TagsToTextTransformer implements DataTransformerInterface
         if (!$tags) {
             $tags = array();
         }
-        
+
         $tagNames = array();
         foreach ($tags as $tag) {
             array_push($tagNames, $tag->getName());
@@ -51,7 +47,8 @@ class TagsToTextTransformer implements DataTransformerInterface
     /**
      * Transforms a string to an array of tags.
      *
-     * @param  string $tagNames
+     * @param string $tagNames
+     *
      * @return array
      */
     public function reverseTransform($tagNames)

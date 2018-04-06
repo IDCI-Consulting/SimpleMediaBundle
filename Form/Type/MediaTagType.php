@@ -1,18 +1,16 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use IDCI\Bundle\SimpleMediaBundle\Form\DataTransformer\TagsToTextTransformer;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type as Type;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class MediaTagType extends AbstractType
 {
@@ -35,9 +33,9 @@ class MediaTagType extends AbstractType
 
     public function getParent()
     {
-        return 'text';
+        return Type\TextType::class;
     }
- 
+
     public function getName()
     {
         return 'media_tag';

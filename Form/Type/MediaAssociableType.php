@@ -1,22 +1,20 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Form\Type;
 
+use IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia;
+use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use IDCI\Bundle\SimpleMediaBundle\Entity\Media;
-use IDCI\Bundle\SimpleMediaBundle\Entity\AssociatedMedia;
 
 /**
- * MediaAssociableType
+ * MediaAssociableType.
  */
 class MediaAssociableType extends AbstractType
 {
@@ -31,8 +29,8 @@ class MediaAssociableType extends AbstractType
         $builder
             ->add('mediaAssociable', $options['mediaAssociableType'], array(
                 'property_path' => false,
-                'label'         => $label,
-                'data'          => $options['mediaAssociable'],
+                'label' => $label,
+                'data' => $options['mediaAssociable'],
             ))
         ;
 
@@ -41,14 +39,14 @@ class MediaAssociableType extends AbstractType
             ->findBy(array('hash' => $hash))
         ;
 
-        foreach($associatedMedias as $associatedMedia) {
+        foreach ($associatedMedias as $associatedMedia) {
             $fieldName = sprintf('associatedMedia_%d', $associatedMedia->getId());
             $builder
                 ->add($fieldName, new AssociatedMediaType(), array(
-                    'property_path'   => false,
-                    'required'        => false,
-                    'data'            => $associatedMedia,
-                    'em'              => $em,
+                    'property_path' => false,
+                    'required' => false,
+                    'data' => $associatedMedia,
+                    'em' => $em,
                 ))
             ;
         }
@@ -62,10 +60,10 @@ class MediaAssociableType extends AbstractType
 
         $builder
             ->add('associatedMedia', new AssociatedMediaType(), array(
-                'property_path'   => false,
-                'required'        => false,
-                'data'            => $associatedMedia,
-                'em'              => $em,
+                'property_path' => false,
+                'required' => false,
+                'data' => $associatedMedia,
+                'em' => $em,
             ))
         ;
     }
@@ -73,10 +71,10 @@ class MediaAssociableType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'cascade_validation'  => true,
+            'cascade_validation' => true,
             'mediaAssociableType' => null,
-            'mediaAssociable'     => null,
-            'provider'            => null,
+            'mediaAssociable' => null,
+            'provider' => null,
         ));
 
         $resolver->setRequired(array(
@@ -89,10 +87,10 @@ class MediaAssociableType extends AbstractType
 
         $resolver->setAllowedTypes(array(
             'mediaAssociableType' => 'Symfony\Component\Form\AbstractType',
-            'mediaAssociable'     => 'IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface',
-            'provider'            => 'IDCI\Bundle\SimpleMediaBundle\Provider\ProviderInterface',
-            'hash'                => 'string',
-            'em'                  => 'Doctrine\Common\Persistence\ObjectManager',
+            'mediaAssociable' => 'IDCI\Bundle\SimpleMediaBundle\Entity\MediaAssociableInterface',
+            'provider' => 'IDCI\Bundle\SimpleMediaBundle\Provider\ProviderInterface',
+            'hash' => 'string',
+            'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
 

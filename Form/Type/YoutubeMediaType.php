@@ -1,10 +1,8 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\SimpleMediaBundle\Form\Type;
@@ -12,7 +10,7 @@ namespace IDCI\Bundle\SimpleMediaBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * YoutubeMediaType
+ * YoutubeMediaType.
  */
 class YoutubeMediaType extends MediaType
 {
@@ -22,7 +20,7 @@ class YoutubeMediaType extends MediaType
         $builder
             ->add('name', null, array(
                 'required' => true,
-                'label'    => 'Youtube URL'
+                'label' => 'Youtube URL',
             ))
             ->remove('description')
         ;
